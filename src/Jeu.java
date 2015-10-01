@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -10,7 +11,7 @@ public class Jeu extends JPanel{
 	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
 	
 	public Jeu(){
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			ennemis.add(new Ennemi(20));
 		}
 	}
@@ -21,6 +22,8 @@ public class Jeu extends JPanel{
         g.fillOval(o.co.x,o.co.y, 2*o.taille, 2*o.taille);
         g.setColor(o.couleurSecondaire);
         g.fillOval(o.co.x,o.co.y+o.taille, 2*o.taille, o.taille);
+        g.setColor(Color.WHITE);
+        g.fillPolygon(o.px, o.py, 3);
         
         for(Ennemi e : ennemis){
             g.setColor(e.couleurPrincipale);
