@@ -6,10 +6,10 @@ public class Ennemi extends Entite{
 	
 	public Ennemi(int taille){
 		Random r = new Random();
-		this.co = new Coordonne(r.nextInt()*100+350, r.nextInt()*100+50);
+		super.co = new Coordonne(r.nextInt()*100+350, r.nextInt()*100+50);
 		this.taille = taille;
-		couleurPrincipale = Color.GREEN;
-		couleurSecondaire = Color.PINK.brighter();
+		super.couleurPrincipale = Color.GREEN;
+		super.couleurSecondaire = Color.PINK.brighter();
 	}
 	
 	public Ennemi(Coordonne co, int taille){

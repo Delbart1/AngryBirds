@@ -5,9 +5,9 @@ public class Oiseau extends Entite{
 	
 	public Oiseau(int taille){
 		this.taille = taille;
-		co = new Coordonne(10, 300);
-		couleurPrincipale = Color.RED;
-		couleurSecondaire = Color.ORANGE.brighter();
+		super.co = new Coordonne(10, 300);
+		super.couleurPrincipale = Color.RED;
+		super.couleurSecondaire = Color.ORANGE.brighter();
 	}
 	
 	
