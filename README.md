@@ -1,3 +1,3 @@
 ﻿# AngryBirds
 youdelice = clement lambert
-mariam
+MariamAv = Mariam Avanessova
