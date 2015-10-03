@@ -1,8 +1,12 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import angryBirds.Ennemi;
+import angryBirds.Oiseau;
 
 
 public class Jeu extends JPanel{
@@ -33,4 +37,10 @@ public class Jeu extends JPanel{
         }
     }
 	
+    public int square(int a){
+    	return a*a;
+    }
+    public boolean collision(Oiseau o, Ennemi e){
+		return (Math.sqrt(square(e.co.y-o.co.y)+square(e.co.x-o.co.x))<=(o.taille+e.taille));   	
+    }
 }
