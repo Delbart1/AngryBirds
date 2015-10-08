@@ -1,9 +1,14 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import sun.security.krb5.internal.Ticket;
 
 public class Jeu extends JPanel {
 
@@ -14,9 +19,26 @@ public class Jeu extends JPanel {
 		for (int i = 0; i < 5; i++) {
 			ennemis.add(new Ennemi(20));
 		}
+		
+		TimerTask task = new TimerTask() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				o.bouger(1, 0);
+				repaint(o.co.x-o.taille, o.co.y-o.taille, o.taille*3, o.taille*3);
+			}
+			 
+		};
+		
+
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(task, 0, 1);
+		
 	}
 
 	public void paintComponent(Graphics g) {
+		g.drawImage(new ImageIcon(Main.class.getResource("fond.png")).getImage(), 0, 0, null);
 		paintEntite(o, g);
 
 		for (Ennemi e : ennemis) {
@@ -30,7 +52,7 @@ public class Jeu extends JPanel {
 		g.setColor(e.couleurSecondaire);
 		g.fillOval(e.co.x, e.co.y + e.taille, 2 * e.taille, e.taille);
 		if (e instanceof Oiseau) {
-			g.setColor(Color.WHITE);
+			g.setColor(Color.BLACK);
 			g.fillPolygon(o.px, o.py, 3);
 		}
 	}
