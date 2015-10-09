@@ -23,7 +23,7 @@ public class Jeu extends JPanel {
 	Oiseau o = new Oiseau(r.nextInt(10) + 40);
 	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
 
-	Coordonne coElastique = new Coordonne(o.co.x - 20, o.co.y);
+	Coordonne coInit = new Coordonne(o.co.x, o.co.y);
 
 	public Jeu() {
 		for (int i = 0; i < 5; i++) {
@@ -50,8 +50,12 @@ public class Jeu extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if (e.getX() >= coElastique.x && e.getX() < coElastique.x + 40) {
+				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50) {
 					o.co.x = e.getX();
+					repaint();
+				}
+				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50) {
+					o.co.y = e.getY();
 					repaint();
 				}
 			}
