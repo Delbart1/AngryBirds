@@ -26,14 +26,14 @@ public class Jeu extends JPanel {
 			public void run() {
 				// TODO Auto-generated method stub
 				o.bouger(1, 0);
-				repaint(o.co.x-o.taille, o.co.y-o.taille, o.taille*3, o.taille*3);
+				repaint(o.co.x-5, o.co.y-5, o.taille*2+5, o.taille*2+5);
 			}
 			 
 		};
 		
 
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 1);
+		timer.scheduleAtFixedRate(task, 0, 10);
 		
 	}
 
@@ -44,6 +44,7 @@ public class Jeu extends JPanel {
 		for (Ennemi e : ennemis) {
 			paintEntite(e, g);
 		}
+		
 	}
 
 	public void paintEntite(Entite e, Graphics g) {
