@@ -26,4 +26,12 @@ public class Oiseau extends Entite {
 		}
 	}
 
+	public void bouger(int x, int y){
+		super.bouger(x, y);
+		for(int i = 0 ; i < px.length ; i++){
+			px[i] += x;
+			py[i] += y;
+		}
+	}
+	
 }

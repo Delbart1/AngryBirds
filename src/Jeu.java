@@ -19,6 +19,7 @@ import sun.security.krb5.internal.Ticket;
 public class Jeu extends JPanel {
 
 	Random r = new Random();
+	boolean lancé = false;
 
 	Oiseau o = new Oiseau(r.nextInt(10) + 40);
 	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
@@ -35,7 +36,8 @@ public class Jeu extends JPanel {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				lancerOiseau();
+				if (!lancé)
+					lancerOiseau();
 			}
 
 			@Override
@@ -50,11 +52,11 @@ public class Jeu extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50) {
+				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !lancé) {
 					o.co.x = e.getX();
 					repaint();
 				}
-				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50) {
+				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50 && !lancé) {
 					o.co.y = e.getY();
 					repaint();
 				}
@@ -88,7 +90,7 @@ public class Jeu extends JPanel {
 				e.taille / 10);
 
 		if (e instanceof Oiseau) {
-			g.setColor(Color.WHITE);
+			g.setColor(new Color(255,204,153));
 			g.fillPolygon(o.px, o.py, 3);
 		}
 	}
@@ -99,12 +101,23 @@ public class Jeu extends JPanel {
 	}
 
 	public void lancerOiseau() {
+		int idDirection = r.nextInt(2) + 1;
+
+		lancé = true;
+
 		TimerTask task = new TimerTask() {
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				o.bouger(1, 0);
+				switch (idDirection) {
+				case 1:
+					o.bouger(2, 0);
+					break;
+				case 2:
+					o.bouger(2, -1);
+					break;
+				}
 
 				ArrayList<Ennemi> ennemisMorts = new ArrayList<Ennemi>();
 				for (Ennemi e : ennemis) {
