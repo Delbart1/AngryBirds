@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -11,7 +13,7 @@ import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+import javafx.scene.shape.Rectangle;
 import sun.security.krb5.internal.Ticket;
 
 public class Jeu extends JPanel {
@@ -21,27 +23,39 @@ public class Jeu extends JPanel {
 	Oiseau o = new Oiseau(r.nextInt(10) + 40);
 	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
 
+	Coordonne coElastique = new Coordonne(o.co.x - 20, o.co.y);
+
 	public Jeu() {
 		for (int i = 0; i < 5; i++) {
 			ennemis.add(new Ennemi(r.nextInt(10) + 40));
 		}
 
 		this.addMouseListener(new MouseAdapter() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				// TODO Auto-generated method stub
 				lancerOiseau();
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
-		// lancerOiseau();
+
+		this.addMouseMotionListener(new MouseMotionAdapter() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getX() >= coElastique.x && e.getX() < coElastique.x + 40) {
+					o.co.x = e.getX();
+					repaint();
+				}
+			}
+		});
 
 	}
 
@@ -75,12 +89,9 @@ public class Jeu extends JPanel {
 		}
 	}
 
-	public int square(int a) {
-		return a * a;
-	}
-
 	public boolean collision(Oiseau o, Ennemi e) {
-		return (Math.sqrt(square(e.co.y - o.co.y) + square(e.co.x - o.co.x)) <= (o.taille + e.taille));
+		return o.co.x < e.co.x + e.taille && o.co.x + o.taille > e.co.x && o.co.y < e.co.y + e.taille
+				&& o.co.y + o.taille > e.co.y;
 	}
 
 	public void lancerOiseau() {
@@ -90,8 +101,16 @@ public class Jeu extends JPanel {
 			public void run() {
 				// TODO Auto-generated method stub
 				o.bouger(1, 0);
-				// repaint(o.co.x - 5, o.co.y - 5, o.taille * 2 + 5, o.taille *
-				// 2 + 5);
+
+				ArrayList<Ennemi> ennemisMorts = new ArrayList<Ennemi>();
+				for (Ennemi e : ennemis) {
+					if (collision(o, e)) {
+						ennemisMorts.add(e);
+					}
+				}
+				for (Ennemi e : ennemisMorts) {
+					ennemis.remove(e);
+				}
 				repaint();
 			}
 
