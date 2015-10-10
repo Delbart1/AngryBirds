@@ -16,10 +16,17 @@ import javax.swing.JPanel;
 import javafx.scene.shape.Rectangle;
 import sun.security.krb5.internal.Ticket;
 
+
+/**
+ * classe du jeu, avec les actions
+ * 
+ * @author youdelice
+ */
 public class Jeu extends JPanel {
 
 	Random r = new Random();
-	boolean lancé = false;
+	boolean lance = false;
+        private int idDirection;
 
 	Oiseau o = new Oiseau(r.nextInt(10) + 40);
 	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
@@ -36,7 +43,7 @@ public class Jeu extends JPanel {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				if (!lancé)
+				if (!lance)
 					lancerOiseau();
 			}
 
@@ -52,11 +59,11 @@ public class Jeu extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !lancé) {
+				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !lance) {
 					o.co.x = e.getX();
 					repaint();
 				}
-				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50 && !lancé) {
+				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50 && !lance) {
 					o.co.y = e.getY();
 					repaint();
 				}
@@ -65,6 +72,12 @@ public class Jeu extends JPanel {
 
 	}
 
+        
+        /**
+         * IHM creant le fond et les ennemis
+         * 
+         * @param g 
+         */
 	public void paintComponent(Graphics g) {
 		g.drawImage(new ImageIcon(Main.class.getResource("fond.png")).getImage(), 0, 0, null);
 		paintEntite(o, g);
@@ -75,6 +88,12 @@ public class Jeu extends JPanel {
 
 	}
 
+        /**
+         * ihm d'une entitÃ©
+         * 
+         * @param e l'entitÃ©
+         * @param g 
+         */
 	public void paintEntite(Entite e, Graphics g) {
 		g.setColor(e.couleurPrincipale);
 		g.fillOval(e.co.x, e.co.y, e.taille, e.taille);
@@ -95,15 +114,26 @@ public class Jeu extends JPanel {
 		}
 	}
 
+        /**
+         * gerÃ© la collision entre 2 entitÃ©
+         * 
+         * @param o oiseau
+         * @param e un ennemi
+         * @return si il touche ou pas
+         */
 	public boolean collision(Oiseau o, Ennemi e) {
 		return o.co.x < e.co.x + e.taille && o.co.x + o.taille > e.co.x && o.co.y < e.co.y + e.taille
 				&& o.co.y + o.taille > e.co.y;
 	}
 
+        /**
+         * timer du jeu, retire les ennemi si toucher et le lancer de l'oiseau 
+         * 
+         */
 	public void lancerOiseau() {
-		int idDirection = r.nextInt(2) + 1;
+                idDirection = r.nextInt(2) + 1;
 
-		lancé = true;
+		lance = true;
 
 		TimerTask task = new TimerTask() {
 
@@ -123,6 +153,8 @@ public class Jeu extends JPanel {
 				for (Ennemi e : ennemis) {
 					if (collision(o, e)) {
 						ennemisMorts.add(e);
+                                                
+                                        
 					}
 				}
 				for (Ennemi e : ennemisMorts) {

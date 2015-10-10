@@ -7,6 +7,11 @@ public class Oiseau extends Entite {
 	int[] px = new int[3];
 	int[] py = new int[3];
 
+        /**
+         * constructeur de loiseau avec une taille
+         * 
+         * @param taille 
+         */
 	public Oiseau(int taille) {
 		this.taille = taille;
 		super.co = new Coordonne(120, 400);
@@ -26,6 +31,12 @@ public class Oiseau extends Entite {
 		}
 	}
 
+        /**
+         * fait bouger l'oiseau 
+         * 
+         * @param x
+         * @param y 
+         */
 	public void bouger(int x, int y){
 		super.bouger(x, y);
 		for(int i = 0 ; i < px.length ; i++){
