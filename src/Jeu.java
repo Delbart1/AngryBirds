@@ -101,6 +101,14 @@ public class Jeu extends JPanel {
          * @param g 
          */
 	public void paintEntite(Entite e, Graphics g) {
+		if (e instanceof Oiseau) {
+			g.setColor(new Color(255,204,153));
+			g.fillPolygon(o.px, o.py, 3);
+			if(!lancé){
+				g.setColor(new Color(51,25,0));
+				g.drawLine(o.co.x + o.taille / 2, o.co.y + o.taille / 2, 142, 435);
+			}
+		}
 		g.setColor(e.couleurPrincipale);
 		g.fillOval(e.co.x, e.co.y, e.taille, e.taille);
 		g.setColor(e.couleurSecondaire);
@@ -114,10 +122,7 @@ public class Jeu extends JPanel {
 		g.fillOval(e.co.x + e.taille / 2 + e.taille / 10, e.co.y + e.taille / 4 + e.taille / 15, e.taille / 10,
 				e.taille / 10);
 
-		if (e instanceof Oiseau) {
-			g.setColor(new Color(255,204,153));
-			g.fillPolygon(o.px, o.py, 3);
-		}
+
 	}
 
         /**
