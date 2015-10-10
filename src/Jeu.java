@@ -53,10 +53,16 @@ public class Jeu extends JPanel {
 			public void mouseDragged(MouseEvent e) {
 				// TODO Auto-generated method stub
 				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !lancé) {
+					for(int i = 0 ; i < o.px.length ; i++){
+						o.px[i] += e.getX() - o.co.x;
+					}
 					o.co.x = e.getX();
 					repaint();
 				}
 				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50 && !lancé) {
+					for(int i = 0 ; i < o.px.length ; i++){
+						o.py[i] += e.getY() - o.co.y;
+					}
 					o.co.y = e.getY();
 					repaint();
 				}
