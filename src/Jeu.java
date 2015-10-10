@@ -104,7 +104,7 @@ public class Jeu extends JPanel {
 		if (e instanceof Oiseau) {
 			g.setColor(new Color(255,204,153));
 			g.fillPolygon(o.px, o.py, 3);
-			if(!lancé){
+			if(!lance){
 				g.setColor(new Color(51,25,0));
 				g.drawLine(o.co.x + o.taille / 2, o.co.y + o.taille / 2, 142, 435);
 			}
