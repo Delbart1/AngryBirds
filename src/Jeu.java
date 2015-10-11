@@ -4,11 +4,18 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +30,7 @@ public class Jeu extends JPanel {
 
 	Random r = new Random();
 	boolean lance = false;
+	boolean elastiqueTiré = false;
 	private int idDirection;
 
 	Oiseau o = new Oiseau(50);
@@ -48,6 +56,16 @@ public class Jeu extends JPanel {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
+				if (!elastiqueTiré) {
+					elastiqueTiré = true;
+					try {
+						jouerSon("slingshot.wav");
+					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
 				// TODO Auto-generated method stub
 				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !lance) {
 					for (int i = 0; i < o.px.length; i++) {
@@ -214,5 +232,14 @@ public class Jeu extends JPanel {
 
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 10);
+	}
+	
+	public void jouerSon(String nomFichier) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+		URL url = Main.class.getResource(nomFichier);
+		final Clip clip = AudioSystem.getClip();
+		try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(url)) {
+			clip.open(audioIn);
+		}
+		clip.start();
 	}
 }
