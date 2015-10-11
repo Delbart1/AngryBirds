@@ -81,6 +81,12 @@ public class Jeu extends JPanel {
 						o.py2[i] += e.getY() - o.co.y;
 					}
 					o.co.y = e.getY();
+					if(o.co.y <= coInit.y + 25){
+						idDirection = 1;
+					}
+					else {
+						idDirection = 2;
+					}
 					repaint();
 				}
 			}
@@ -197,7 +203,6 @@ public class Jeu extends JPanel {
 	 * 
 	 */
 	public void lancerOiseau() {
-		idDirection = r.nextInt(2) + 1;
 
 		lance = true;
 		
