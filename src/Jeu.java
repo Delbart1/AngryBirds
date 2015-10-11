@@ -77,6 +77,7 @@ public class Jeu extends JPanel {
 	 */
 	public void paintComponent(Graphics g) {
 		g.drawImage(new ImageIcon(Main.class.getResource("fond2.png")).getImage(), 0, 0, null);
+		g.drawImage(new ImageIcon(Main.class.getResource("slingshot.png")).getImage(), coInit.x + 10, 410, null);
 		paintEntite(o, g);
 
 		for (Ennemi e : ennemis) {
@@ -154,6 +155,8 @@ public class Jeu extends JPanel {
 			g.fillOval(e.co.x + e.taille / 2 + e.taille / 10, e.co.y + e.taille / 4 + e.taille / 15, e.taille / 10,
 					e.taille / 10);
 		}
+
+		g.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), coInit.x + 10, 410, null);
 
 	}
 
