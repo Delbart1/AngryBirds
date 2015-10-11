@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -9,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -65,6 +67,7 @@ public class Jeu extends JPanel {
 				}
 			}
 		});
+
 	}
 
 	/**
@@ -123,9 +126,9 @@ public class Jeu extends JPanel {
 			g.setColor(Color.BLACK);
 			g.fillOval(e.co.x + e.taille / 2 + e.taille / 15, e.co.y + e.taille / 4 + e.taille / 15, e.taille / 10,
 					e.taille / 10);
-			g.fillOval(e.co.x + e.taille / 2 + e.taille / 5 + e.taille / 25, e.co.y + e.taille / 4 + e.taille / 15, e.taille / 10,
-					e.taille / 10);
-			
+			g.fillOval(e.co.x + e.taille / 2 + e.taille / 5 + e.taille / 25, e.co.y + e.taille / 4 + e.taille / 15,
+					e.taille / 10, e.taille / 10);
+
 			// Bec
 			g.setColor(new Color(255, 204, 0));
 			g.fillPolygon(o.px, o.py, 3);
