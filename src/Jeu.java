@@ -200,6 +200,13 @@ public class Jeu extends JPanel {
 		idDirection = r.nextInt(2) + 1;
 
 		lance = true;
+		
+		try {
+			jouerSon("bird.wav");
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		TimerTask task = new TimerTask() {
 
