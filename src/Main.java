@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 
 public class Main {
 
-	private static Jeu j = new Jeu(1);
+	private static Jeu j = new Jeu(10);
 	
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -40,7 +40,7 @@ public class Main {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				j = new Jeu(1);
+				j = new Jeu(10);
 				f.setContentPane(j);
 				f.getContentPane().add(retry);
 				f.revalidate();

@@ -40,10 +40,15 @@ public class Jeu extends JPanel {
 
 	public Jeu(int nbEnnemis) {
 		for (int i = 0; i < nbEnnemis; i++) {
-			ennemis.add(new Ennemi(50));
+                    Ennemi ennemitmp =new Ennemi(50) ;
+                    for(Ennemi e : ennemis){
+                    if(collision(e, ennemitmp)){
+                        ennemitmp = new Ennemi(50);
+			}
+                    }
+                    ennemis.add(ennemitmp);
 		}
-
-		this.addMouseListener(new MouseAdapter() {
+                this.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
@@ -199,6 +204,11 @@ public class Jeu extends JPanel {
 		return o.co.x < e.co.x + e.taille && o.co.x + o.taille > e.co.x && o.co.y < e.co.y + e.taille
 				&& o.co.y + o.taille > e.co.y;                                       
 	}
+        
+        public boolean collision(Ennemi e1, Ennemi e) {
+		return e1.co.x < e.co.x + e.taille && e1.co.x + e1.taille > e.co.x && e1.co.y < e.co.y + e.taille
+				&& e1.co.y + e1.taille > e.co.y;                                       
+	}
 
 	/**
 	 * timer du jeu, retire les ennemi si toucher et le lancer de l'oiseau
@@ -219,7 +229,7 @@ public class Jeu extends JPanel {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub                           
 				switch (idDirection) {
 				case 1:
 					o.bouger(2, 0);
@@ -239,9 +249,9 @@ public class Jeu extends JPanel {
 				}
 				for (Ennemi e : ennemisMorts) {                             
 					ennemis.remove(e);
-				}
+				}               
 				repaint();
-			}
+                        }
 
 		};
 
