@@ -5,8 +5,8 @@ import java.awt.Point;
 public class Oiseau extends Entite {
 
 	int[] px = new int[3];
-	int[] py = new int[3];
-
+	int[] py = new int[3];    
+        
         /**
          * constructeur de loiseau avec une taille
          * 

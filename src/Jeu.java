@@ -30,7 +30,7 @@ public class Jeu extends JPanel {
 
 	Oiseau o = new Oiseau(r.nextInt(10) + 40);
 	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
-
+       
 	Coordonne coInit = new Coordonne(o.co.x, o.co.y);
 
 	public Jeu() {
@@ -62,14 +62,14 @@ public class Jeu extends JPanel {
 				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !lance) {
 					for(int i = 0 ; i < o.px.length ; i++){
 						o.px[i] += e.getX() - o.co.x;
-					}
+					}  
 					o.co.x = e.getX();
 					repaint();
 				}
 				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50 && !lance) {
 					for(int i = 0 ; i < o.px.length ; i++){
 						o.py[i] += e.getY() - o.co.y;
-                                        }
+                                        }                                       
 					o.co.y = e.getY();
 					repaint();
 				}
@@ -129,7 +129,7 @@ public class Jeu extends JPanel {
          */
 	public boolean collision(Oiseau o, Ennemi e) {
 		return o.co.x < e.co.x + e.taille && o.co.x + o.taille > e.co.x && o.co.y < e.co.y + e.taille
-				&& o.co.y + o.taille > e.co.y;
+				&& o.co.y + o.taille > e.co.y;                                       
 	}
 
         /**
@@ -159,11 +159,11 @@ public class Jeu extends JPanel {
 				for (Ennemi e : ennemis) {
 					if (collision(o, e)) {
 						ennemisMorts.add(e);
-                                                
-                                        
-					}
+
+	
+                                        }
 				}
-				for (Ennemi e : ennemisMorts) {
+				for (Ennemi e : ennemisMorts) {                             
 					ennemis.remove(e);
 				}
 				repaint();
