@@ -6,10 +6,8 @@ public class Oiseau extends Entite {
 
 	int[] px = new int[3];
 	int[] py = new int[3];
-
 	int[] px2 = new int[3];
 	int[] py2 = new int[3];
-
 	/**
 	 * constructeur de loiseau avec une taille
 	 * 
@@ -22,7 +20,7 @@ public class Oiseau extends Entite {
 		super.couleurSecondaire = new Color(250, 224, 173);
 
 		Point[] p = new Point[3];
-		// Point du bas à gauche
+		// Point du bas ï¿½ gauche
 		p[0] = new Point(co.x + taille / 2 - taille / 8 + taille / 5, co.y + taille / 2 + taille / 8);
 		// Point du haut
 		p[1] = new Point(co.x + taille / 2 + taille / 5, co.y + taille / 4 + taille / 6);
@@ -34,7 +32,7 @@ public class Oiseau extends Entite {
 		}
 
 		Point[] p2 = new Point[3];
-		// Point du haut à gauche
+		// Point du haut ï¿½ gauche
 		p2[0] = new Point(co.x + taille / 2 - taille / 8 + taille / 5, co.y + taille / 2 + taille / 8);
 		// Point du bas
 		p2[1] = new Point(co.x + taille / 2 + taille / 5, co.y + taille / 2 + taille / 8 + taille / 5);

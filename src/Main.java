@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 
 public class Main {
 
-	private static Jeu j = new Jeu(1);
+	private static Jeu j = new Jeu(10);
 	
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -28,19 +28,19 @@ public class Main {
 			clip.open(audioIn);
 		}
 
-		JFrame f = new JFrame("Angry Birds");
+		final JFrame f = new JFrame("Angry Birds");
 		f.setIconImage(new ImageIcon(Main.class.getResource("favicon.png")).getImage());
 		f.setPreferredSize(new Dimension(800, 600));
 		f.setResizable(false);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLayout(null);
 
-		JLabel retry = new JLabel(new ImageIcon(Main.class.getResource("retry.png")));
+		final JLabel retry = new JLabel(new ImageIcon(Main.class.getResource("retry.png")));
 		retry.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				j = new Jeu(1);
+				j = new Jeu(10);
 				f.setContentPane(j);
 				f.getContentPane().add(retry);
 				f.revalidate();

@@ -30,7 +30,7 @@ public class Jeu extends JPanel {
 
 	Random r = new Random();
 	boolean lance = false;
-	boolean elastiqueTiré = false;
+	boolean elastiqueTire = false;
 	private int idDirection;
 
 	Oiseau o = new Oiseau(50);
@@ -40,9 +40,14 @@ public class Jeu extends JPanel {
 
 	public Jeu(int nbEnnemis) {
 		for (int i = 0; i < nbEnnemis; i++) {
-			ennemis.add(new Ennemi(50));
+			Ennemi ennemitmp = new Ennemi(50);
+			for (Ennemi e : ennemis) {
+				if (collision(e, ennemitmp)) {
+					ennemitmp = new Ennemi(50);
+				}
+			}
+			ennemis.add(ennemitmp);
 		}
-
 		this.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -56,8 +61,8 @@ public class Jeu extends JPanel {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if (!elastiqueTiré) {
-					elastiqueTiré = true;
+				if (!elastiqueTire) {
+					elastiqueTire = true;
 					try {
 						jouerSon("slingshot.wav");
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
@@ -70,6 +75,7 @@ public class Jeu extends JPanel {
 				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !lance) {
 					for (int i = 0; i < o.px.length; i++) {
 						o.px[i] += e.getX() - o.co.x;
+
 						o.px2[i] += e.getX() - o.co.x;
 					}
 					o.co.x = e.getX();
@@ -78,6 +84,7 @@ public class Jeu extends JPanel {
 				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50 && !lance) {
 					for (int i = 0; i < o.px.length; i++) {
 						o.py[i] += e.getY() - o.co.y;
+
 						o.py2[i] += e.getY() - o.co.y;
 					}
 					o.co.y = e.getY();
@@ -135,6 +142,13 @@ public class Jeu extends JPanel {
 		g.setColor(e.couleurPrincipale);
 		g.fillOval(e.co.x, e.co.y, e.taille, e.taille);
 
+<<<<<<< HEAD
+=======
+		// Corps infï¿½rieur
+		g.setColor(e.couleurSecondaire);
+		g.fillOval(e.co.x + 5, e.co.y + e.taille / 2, e.taille - 10, e.taille / 2);
+
+>>>>>>> origin/master
 		if (e instanceof Oiseau) {
 
 			// Corps inférieur
@@ -211,6 +225,11 @@ public class Jeu extends JPanel {
 	public boolean collision(Oiseau o, Ennemi e) {
 		return o.co.x < e.co.x + e.taille && o.co.x + o.taille > e.co.x && o.co.y < e.co.y + e.taille
 				&& o.co.y + o.taille > e.co.y;
+	}
+
+	public boolean collision(Ennemi e1, Ennemi e) {
+		return e1.co.x < e.co.x + e.taille && e1.co.x + e1.taille > e.co.x && e1.co.y < e.co.y + e.taille
+				&& e1.co.y + e1.taille > e.co.y;
 	}
 
 	/**
