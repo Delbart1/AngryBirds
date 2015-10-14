@@ -65,7 +65,7 @@ public class Jeu extends JPanel {
 						e1.printStackTrace();
 					}
 				}
-				
+
 				// TODO Auto-generated method stub
 				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !lance) {
 					for (int i = 0; i < o.px.length; i++) {
@@ -81,10 +81,9 @@ public class Jeu extends JPanel {
 						o.py2[i] += e.getY() - o.co.y;
 					}
 					o.co.y = e.getY();
-					if(o.co.y <= coInit.y + 25){
+					if (o.co.y <= coInit.y + 25) {
 						idDirection = 1;
-					}
-					else {
+					} else {
 						idDirection = 2;
 					}
 					repaint();
@@ -136,11 +135,11 @@ public class Jeu extends JPanel {
 		g.setColor(e.couleurPrincipale);
 		g.fillOval(e.co.x, e.co.y, e.taille, e.taille);
 
-		// Corps inférieur
-		g.setColor(e.couleurSecondaire);
-		g.fillOval(e.co.x + 5, e.co.y + e.taille / 2, e.taille - 10, e.taille / 2);
-
 		if (e instanceof Oiseau) {
+
+			// Corps inférieur
+			g.setColor(e.couleurSecondaire);
+			g.fillOval(e.co.x + 5, e.co.y + e.taille / 2, e.taille - 10, e.taille / 2);
 
 			// Yeux
 			g.setColor(Color.WHITE);
@@ -169,15 +168,31 @@ public class Jeu extends JPanel {
 		else {
 			// Yeux
 			g.setColor(Color.WHITE);
-			g.fillOval(e.co.x + e.taille / 4, e.co.y + e.taille / 4, e.taille / 5, e.taille / 5);
-			g.fillOval(e.co.x + e.taille / 2 + e.taille / 10, e.co.y + e.taille / 4, e.taille / 5, e.taille / 5);
+			g.fillOval(e.co.x + e.taille / 15, e.co.y + e.taille / 3, e.taille / 5, e.taille / 5);
+			g.fillOval(e.co.x + e.taille / 2 + e.taille / 4, e.co.y + e.taille / 3, e.taille / 5, e.taille / 5);
 
 			// Pupilles
 			g.setColor(Color.BLACK);
-			g.fillOval(e.co.x + e.taille / 4 + e.taille / 10, e.co.y + e.taille / 4 + e.taille / 15, e.taille / 10,
+			g.fillOval(e.co.x + e.taille / 15, e.co.y + e.taille / 3 + e.taille / 15, e.taille / 10,
 					e.taille / 10);
-			g.fillOval(e.co.x + e.taille / 2 + e.taille / 10, e.co.y + e.taille / 4 + e.taille / 15, e.taille / 10,
+			g.fillOval(e.co.x + e.taille / 2 + e.taille / 3, e.co.y + e.taille / 3 + e.taille / 15, e.taille / 10,
 					e.taille / 10);
+
+			// Groin
+			g.setColor(e.couleurSecondaire);
+			g.fillOval(e.co.x + e.taille / 4, e.co.y + e.taille / 3, e.taille / 2, e.taille / 3 + e.taille / 10);
+			g.setColor(new Color(66, 159, 107));
+			g.drawOval(e.co.x + e.taille / 4, e.co.y + e.taille / 3, e.taille / 2, e.taille / 3 + e.taille / 10);
+			g.setColor(new Color(0, 70, 30));
+			g.fillOval(e.co.x + e.taille / 4 + e.taille / 12, e.co.y + e.taille / 3 + e.taille / 10, e.taille / 6,
+					e.taille / 4);
+			g.fillOval(e.co.x + e.taille / 2, e.co.y + e.taille / 3 + e.taille / 7, e.taille / 7, e.taille / 5);
+
+			// Bouche
+			g.setColor(Color.BLACK);
+			g.drawOval(e.co.x + e.taille / 3 + e.taille / 12, e.co.y + e.taille / 2 + e.taille / 4 + e.taille / 18, e.taille / 8, e.taille / 10);
+			g.setColor(Color.RED);
+			g.fillOval(e.co.x + e.taille / 3 + e.taille / 12, e.co.y + e.taille / 2 + e.taille / 4 + e.taille / 18, e.taille / 8, e.taille / 10);
 		}
 
 		g.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), coInit.x + 10, 410, null);
@@ -205,7 +220,7 @@ public class Jeu extends JPanel {
 	public void lancerOiseau() {
 
 		lance = true;
-		
+
 		try {
 			jouerSon("bird.wav");
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
@@ -245,8 +260,9 @@ public class Jeu extends JPanel {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 10);
 	}
-	
-	public void jouerSon(String nomFichier) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+
+	public void jouerSon(String nomFichier)
+			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		URL url = Main.class.getResource(nomFichier);
 		final Clip clip = AudioSystem.getClip();
 		try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(url)) {

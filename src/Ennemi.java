@@ -8,8 +8,8 @@ public class Ennemi extends Entite{
 		Random r = new Random();
 		super.co = new Coordonne(r.nextInt(80)*5+350, 525 - taille);
 		this.taille = taille;
-		super.couleurPrincipale = Color.GREEN;
-		super.couleurSecondaire = Color.WHITE;
+		super.couleurPrincipale = new Color(97, 223, 69);
+		super.couleurSecondaire = new Color(190, 245, 116);
 	}
 	
 	public Ennemi(Coordonne co, int taille){
