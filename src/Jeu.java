@@ -142,16 +142,13 @@ public class Jeu extends JPanel {
 		g.setColor(e.couleurPrincipale);
 		g.fillOval(e.co.x, e.co.y, e.taille, e.taille);
 
-<<<<<<< HEAD
-=======
 		// Corps infï¿½rieur
 		g.setColor(e.couleurSecondaire);
 		g.fillOval(e.co.x + 5, e.co.y + e.taille / 2, e.taille - 10, e.taille / 2);
 
->>>>>>> origin/master
 		if (e instanceof Oiseau) {
 
-			// Corps inférieur
+			// Corps infï¿½rieur
 			g.setColor(e.couleurSecondaire);
 			g.fillOval(e.co.x + 5, e.co.y + e.taille / 2, e.taille - 10, e.taille / 2);
 

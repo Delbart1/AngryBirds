@@ -57,7 +57,7 @@ public class Oiseau extends Entite {
 			py[i] += y;
 			px2[i] += x;
 			py2[i] += y;
-		}
+		}            
 	}
 
 }
