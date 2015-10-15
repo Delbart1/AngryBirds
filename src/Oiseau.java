@@ -4,10 +4,13 @@ import java.awt.Point;
 
 public class Oiseau extends Entite {
 
+	boolean lance = false;
+
 	int[] px = new int[3];
 	int[] py = new int[3];
 	int[] px2 = new int[3];
 	int[] py2 = new int[3];
+
 	/**
 	 * constructeur de loiseau avec une taille
 	 * 
@@ -58,6 +61,42 @@ public class Oiseau extends Entite {
 			px2[i] += x;
 			py2[i] += y;
 		}
+	}
+
+	public void paintComponent(Jeu j, Graphics g) {
+
+		// Elastique
+		if (!lance) {
+			g.setColor(new Color(51, 25, 0));
+			g.drawLine(co.x + taille / 2, co.y + taille / 2, 142, 435);
+		}
+
+		super.paintComponent(g);
+
+		// Corps inférieur
+		g.setColor(couleurSecondaire);
+		g.fillOval(co.x + 5, co.y + taille / 2, taille - 10, taille / 2);
+
+		// Yeux
+		g.setColor(Color.WHITE);
+		g.fillOval(co.x + taille / 2, co.y + taille / 4, taille / 5, taille / 5);
+		g.fillOval(co.x + taille / 2 + taille / 5, co.y + taille / 4, taille / 5, taille / 5);
+
+		// Pupilles
+		g.setColor(Color.BLACK);
+		g.fillOval(co.x + taille / 2 + taille / 15, co.y + taille / 4 + taille / 15, taille / 10, taille / 10);
+		g.fillOval(co.x + taille / 2 + taille / 5 + taille / 25, co.y + taille / 4 + taille / 15, taille / 10,
+				taille / 10);
+
+		// Bec
+		g.setColor(new Color(255, 204, 0));
+		g.fillPolygon(px, py, 3);
+		g.setColor(new Color(255, 172, 0));
+		g.fillPolygon(px2, py2, 3);
+		g.setColor(Color.BLACK);
+		g.drawPolygon(px, py, 3);
+		g.drawLine(px2[0], py2[0], px2[1], py2[1]);
+		g.drawLine(px2[1], py2[1], px2[2], py2[2]);
 	}
 
 }

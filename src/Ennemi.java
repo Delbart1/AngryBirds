@@ -1,22 +1,21 @@
 import java.awt.Color;
 import java.util.Random;
 
+public class Ennemi extends Entite {
 
-public class Ennemi extends Entite{
-	
-	public Ennemi(int taille){
+	public Ennemi(int taille) {
 		Random r = new Random();
-		super.co = new Coordonne(r.nextInt(80)*5+350, r.nextInt(500));
+		super.co = new Coordonne(r.nextInt(80) * 5 + 350, r.nextInt(500));
+		// position y pour le sol 525 - taille
 		this.taille = taille;
 		super.couleurPrincipale = new Color(97, 223, 69);
 		super.couleurSecondaire = new Color(190, 245, 116);
 	}
-	
-	public Ennemi(Coordonne co, int taille){
+
+	public Ennemi(Coordonne co, int taille) {
 		this.co = co;
 		this.taille = taille;
 		couleurPrincipale = Color.GREEN;
 		couleurSecondaire = Color.PINK.brighter();
 	}
-	
 }
