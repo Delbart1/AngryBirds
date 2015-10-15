@@ -17,7 +17,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -29,9 +30,11 @@ import javax.swing.JPanel;
 public class Jeu extends JPanel {
 
 	Random r = new Random();
-	boolean lance = false;
 	boolean elastiqueTire = false;
 	private int idDirection;
+	
+
+	private int nbLancers = 1;
 
 	Oiseau o = new Oiseau(50);
 	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
@@ -52,7 +55,7 @@ public class Jeu extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				if (!lance)
+				if (!o.lance)
 					lancerOiseau();
 			}
 		});
@@ -72,7 +75,7 @@ public class Jeu extends JPanel {
 				}
 
 				// TODO Auto-generated method stub
-				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !lance) {
+				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !o.lance) {
 					for (int i = 0; i < o.px.length; i++) {
 						o.px[i] += e.getX() - o.co.x;
 
@@ -81,7 +84,7 @@ public class Jeu extends JPanel {
 					o.co.x = e.getX();
 					repaint();
 				}
-				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50 && !lance) {
+				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50 && !o.lance) {
 					for (int i = 0; i < o.px.length; i++) {
 						o.py[i] += e.getY() - o.co.y;
 
@@ -108,125 +111,30 @@ public class Jeu extends JPanel {
 	public void paintComponent(Graphics g) {
 		g.drawImage(new ImageIcon(Main.class.getResource("fond2.png")).getImage(), 0, 0, null);
 		g.drawImage(new ImageIcon(Main.class.getResource("slingshot.png")).getImage(), coInit.x + 10, 410, null);
-		paintEntite(o, g);
+		o.paintComponent(this, g);
 
 		for (Ennemi e : ennemis) {
-			paintEntite(e, g);
-		}
 
-		g.drawImage(new ImageIcon(Main.class.getResource("caisse.png")).getImage(), 0, 480, null);
-	}
-
-	/**
-	 * ihm d'une entité
-	 * 
-	 * @param e
-	 *            l'entité
-	 * @param g
-	 */
-	public void paintEntite(Entite e, Graphics g) {
-
-		// Cell-shading
-		g.setColor(Color.BLACK);
-		g.fillOval(e.co.x - 3, e.co.y - 3, e.taille + 6, e.taille + 6);
-
-		if (e instanceof Oiseau) {
-			// Elastique
-			if (!lance) {
-				g.setColor(new Color(51, 25, 0));
-				g.drawLine(o.co.x + o.taille / 2, o.co.y + o.taille / 2, 142, 435);
-			}
-		}
-
-		// Corps
-		g.setColor(e.couleurPrincipale);
-		g.fillOval(e.co.x, e.co.y, e.taille, e.taille);
-
-		// Corps inf�rieur
-		g.setColor(e.couleurSecondaire);
-		g.fillOval(e.co.x + 5, e.co.y + e.taille / 2, e.taille - 10, e.taille / 2);
-
-		if (e instanceof Oiseau) {
-
-			// Corps inf�rieur
-			g.setColor(e.couleurSecondaire);
-			g.fillOval(e.co.x + 5, e.co.y + e.taille / 2, e.taille - 10, e.taille / 2);
-
-			// Yeux
-			g.setColor(Color.WHITE);
-			g.fillOval(e.co.x + e.taille / 2, e.co.y + e.taille / 4, e.taille / 5, e.taille / 5);
-			g.fillOval(e.co.x + e.taille / 2 + e.taille / 5, e.co.y + e.taille / 4, e.taille / 5, e.taille / 5);
-
-			// Pupilles
-			g.setColor(Color.BLACK);
-			g.fillOval(e.co.x + e.taille / 2 + e.taille / 15, e.co.y + e.taille / 4 + e.taille / 15, e.taille / 10,
-					e.taille / 10);
-			g.fillOval(e.co.x + e.taille / 2 + e.taille / 5 + e.taille / 25, e.co.y + e.taille / 4 + e.taille / 15,
-					e.taille / 10, e.taille / 10);
-
-			// Bec
-			g.setColor(new Color(255, 204, 0));
-			g.fillPolygon(o.px, o.py, 3);
-			g.setColor(new Color(255, 172, 0));
-			g.fillPolygon(o.px2, o.py2, 3);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(o.px, o.py, 3);
-			g.drawLine(o.px2[0], o.py2[0], o.px2[1], o.py2[1]);
-			g.drawLine(o.px2[1], o.py2[1], o.px2[2], o.py2[2]);
-
-		}
-
-		else {
-			// Yeux
-			g.setColor(Color.WHITE);
-			g.fillOval(e.co.x + e.taille / 15, e.co.y + e.taille / 3, e.taille / 5, e.taille / 5);
-			g.fillOval(e.co.x + e.taille / 2 + e.taille / 4, e.co.y + e.taille / 3, e.taille / 5, e.taille / 5);
-
-			// Pupilles
-			g.setColor(Color.BLACK);
-			g.fillOval(e.co.x + e.taille / 15, e.co.y + e.taille / 3 + e.taille / 15, e.taille / 10,
-					e.taille / 10);
-			g.fillOval(e.co.x + e.taille / 2 + e.taille / 3, e.co.y + e.taille / 3 + e.taille / 15, e.taille / 10,
-					e.taille / 10);
-
-			// Groin
-			g.setColor(e.couleurSecondaire);
-			g.fillOval(e.co.x + e.taille / 4, e.co.y + e.taille / 3, e.taille / 2, e.taille / 3 + e.taille / 10);
-			g.setColor(new Color(66, 159, 107));
-			g.drawOval(e.co.x + e.taille / 4, e.co.y + e.taille / 3, e.taille / 2, e.taille / 3 + e.taille / 10);
-			g.setColor(new Color(0, 70, 30));
-			g.fillOval(e.co.x + e.taille / 4 + e.taille / 12, e.co.y + e.taille / 3 + e.taille / 10, e.taille / 6,
-					e.taille / 4);
-			g.fillOval(e.co.x + e.taille / 2, e.co.y + e.taille / 3 + e.taille / 7, e.taille / 7, e.taille / 5);
-
-			// Bouche
-			g.setColor(Color.BLACK);
-			g.drawOval(e.co.x + e.taille / 3 + e.taille / 12, e.co.y + e.taille / 2 + e.taille / 4 + e.taille / 18, e.taille / 8, e.taille / 10);
-			g.setColor(Color.RED);
-			g.fillOval(e.co.x + e.taille / 3 + e.taille / 12, e.co.y + e.taille / 2 + e.taille / 4 + e.taille / 18, e.taille / 8, e.taille / 10);
+			e.paintComponent(g);
 		}
 
 		g.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), coInit.x + 10, 410, null);
-
+		g.drawImage(new ImageIcon(Main.class.getResource("caisse.png")).getImage(), 0, 480, null);
 	}
 
 	/**
 	 * geré la collision entre 2 entité
 	 * 
-	 * @param o
-	 *            oiseau
-	 * @param e
-	 *            un ennemi
+	 * @param e1
+	 *            une entite
+	 * @param e2
+	 *            une entite
 	 * @return si il touche ou pas
 	 */
-	public boolean collision(Oiseau o, Ennemi e) {
-		return o.co.x < e.co.x + e.taille && o.co.x + o.taille > e.co.x && o.co.y < e.co.y + e.taille
-				&& o.co.y + o.taille > e.co.y;
-	}
 
-	public boolean collision(Ennemi e1, Ennemi e) {
-		return e1.co.x < e.co.x + e.taille && e1.co.x + e1.taille > e.co.x && e1.co.y < e.co.y + e.taille
-				&& e1.co.y + e1.taille > e.co.y;
+	public boolean collision(Entite e1, Entite e2) {
+		return e1.co.x < e2.co.x + e2.taille && e1.co.x + e1.taille > e2.co.x && e1.co.y < e2.co.y + e2.taille
+				&& e1.co.y + e1.taille > e2.co.y;
 	}
 
 	/**
@@ -235,7 +143,7 @@ public class Jeu extends JPanel {
 	 */
 	public void lancerOiseau() {
 
-		lance = true;
+		o.lance = true;
 
 		try {
 			jouerSon("bird.wav");
@@ -244,11 +152,12 @@ public class Jeu extends JPanel {
 			e1.printStackTrace();
 		}
 
+		idDirection = r.nextInt(2) + 1;
+
 		TimerTask task = new TimerTask() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				switch (idDirection) {
 				case 1:
 					o.bouger(2, 0);
@@ -261,7 +170,17 @@ public class Jeu extends JPanel {
 				ArrayList<Ennemi> ennemisMorts = new ArrayList<Ennemi>();
 				for (Ennemi e : ennemis) {
 					if (collision(o, e)) {
+						o = new Oiseau(o.taille);
+						elastiqueTire = false;
+						this.cancel();
 						ennemisMorts.add(e);
+						if (nbLancers < 5){
+							nbLancers ++;
+							lancerOiseau();
+						}
+						else {
+							//retry.doClick();
+						}
 
 					}
 				}
@@ -269,6 +188,19 @@ public class Jeu extends JPanel {
 					ennemis.remove(e);
 				}
 				repaint();
+
+				if (o.co.x > 800) {
+					o = new Oiseau(o.taille);
+					elastiqueTire = false;
+					this.cancel();
+					if (nbLancers < 5){
+						nbLancers ++;
+						lancerOiseau();
+					}
+					else {
+						//retry.doClick();
+					}
+				}
 			}
 
 		};

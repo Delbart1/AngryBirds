@@ -13,15 +13,18 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Main {
 
-	private static Jeu j = new Jeu(10);
-	
+	private static int nbEnnemis = 5;
+	private static Jeu j;
+
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
+		
 		URL url = Main.class.getResource("song.wav");
 		final Clip clip = AudioSystem.getClip();
 		try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(url)) {
@@ -36,11 +39,12 @@ public class Main {
 		f.setLayout(null);
 
 		final JLabel retry = new JLabel(new ImageIcon(Main.class.getResource("retry.png")));
+		retry.setFocusable(false);
 		retry.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				j = new Jeu(10);
+				j = new Jeu(nbEnnemis);
 				f.setContentPane(j);
 				f.getContentPane().add(retry);
 				f.revalidate();
@@ -48,6 +52,8 @@ public class Main {
 			}
 
 		});
+
+		j = new Jeu(nbEnnemis);
 
 		f.setContentPane(j);
 		f.getContentPane().add(retry);
