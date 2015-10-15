@@ -1,4 +1,3 @@
-package angrybirds;
 
 import java.applet.Applet;
 import java.awt.Graphics;
@@ -6,13 +5,18 @@ import java.awt.Graphics;
 public class Courbe extends Applet {
 
 	
-	private double t=100;
-	private double b=50;
-	private double c=450;
+	private double a=0.001;   // angle
+	private double b=-0.02;  // hauteur
+	private double c=100;   // 
 	
+	/*public Courbe(double a, double b, double c){
+		this.a = a;
+		this.b = b;
+		this.c = c;
+	}*/
 
 	double f(double x) {
-		return t*Math.cos(x/b)+c;
+		return  a*Math.pow(x, 2)+ b*x + c;
 	}
 
 	public void paint(Graphics g) {
