@@ -1,9 +1,9 @@
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,21 +18,16 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
-/**
- * classe du jeu, avec les actions
- * 
- * @author youdelice
- */
 @SuppressWarnings("serial")
 public class Jeu extends JPanel {
+
+	protected JFrame f;
 
 	Random r = new Random();
 	boolean elastiqueTire = false;
 	private int idDirection;
-	
 
 	private int nbLancers = 1;
 
@@ -42,6 +37,7 @@ public class Jeu extends JPanel {
 	Coordonne coInit = new Coordonne(o.co.x, o.co.y);
 
 	public Jeu(int nbEnnemis) {
+
 		for (int i = 0; i < nbEnnemis; i++) {
 			Ennemi ennemitmp = new Ennemi(50);
 			for (Ennemi e : ennemis) {
@@ -109,16 +105,32 @@ public class Jeu extends JPanel {
 	 * @param g
 	 */
 	public void paintComponent(Graphics g) {
+
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+
 		g.drawImage(new ImageIcon(Main.class.getResource("fond2.png")).getImage(), 0, 0, null);
 		g.drawImage(new ImageIcon(Main.class.getResource("slingshot.png")).getImage(), coInit.x + 10, 410, null);
-		o.paintComponent(this, g);
+
+		AffineTransform old = g2d.getTransform();
+		AffineTransform trans = new AffineTransform();
+		trans.rotate(Math.toRadians(0), o.co.x + o.taille / 2, o.co.y + o.taille / 2);
+
+		g2d.transform(trans);
+		
+		// draw what will be rotated
+		o.paintComponent(this, g2d);
+
+		g2d.setTransform(old);
+
+		// draw what will not be rotated
 
 		for (Ennemi e : ennemis) {
-			e.paintComponent(g);
+			e.paintComponent(g2d);
 		}
 
-		g.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), coInit.x + 10, 410, null);
-		g.drawImage(new ImageIcon(Main.class.getResource("caisse.png")).getImage(), 0, 480, null);
+		g2d.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), coInit.x + 10, 410, null);
+		g2d.drawImage(new ImageIcon(Main.class.getResource("caisse.png")).getImage(), 0, 480, null);
 	}
 
 	/**
@@ -173,12 +185,9 @@ public class Jeu extends JPanel {
 						elastiqueTire = false;
 						this.cancel();
 						ennemisMorts.add(e);
-						if (nbLancers < 5){
-							nbLancers ++;
+						if (nbLancers < 5) {
+							nbLancers++;
 							lancerOiseau();
-						}
-						else {
-							//retry.doClick();
 						}
 
 					}
@@ -192,12 +201,9 @@ public class Jeu extends JPanel {
 					o = new Oiseau(o.taille);
 					elastiqueTire = false;
 					this.cancel();
-					if (nbLancers < 5){
-						nbLancers ++;
+					if (nbLancers < 5) {
+						nbLancers++;
 						lancerOiseau();
-					}
-					else {
-						//retry.doClick();
 					}
 				}
 			}
