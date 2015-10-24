@@ -24,7 +24,7 @@ public class Main {
 
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-		
+		j = new Jeu(nbEnnemis);
 		URL url = Main.class.getResource("song.wav");
 		final Clip clip = AudioSystem.getClip();
 		try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(url)) {
@@ -53,7 +53,7 @@ public class Main {
 
 		});
 
-		j = new Jeu(nbEnnemis);
+		
 
 		f.setContentPane(j);
 		f.getContentPane().add(retry);

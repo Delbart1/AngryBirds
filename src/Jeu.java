@@ -26,7 +26,6 @@ import javax.swing.JPanel;
  * 
  * @author youdelice
  */
-@SuppressWarnings("serial")
 public class Jeu extends JPanel {
 
 	Random r = new Random();

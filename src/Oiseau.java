@@ -73,7 +73,7 @@ public class Oiseau extends Entite {
 
 		super.paintComponent(g);
 
-		// Corps inférieur
+		// Corps infï¿½rieur
 		g.setColor(couleurSecondaire);
 		g.fillOval(co.x + 5, co.y + taille / 2, taille - 10, taille / 2);
 
