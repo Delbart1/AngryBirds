@@ -1,4 +1,3 @@
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,14 +12,13 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Main {
 
 	private static int nbEnnemis = 5;
-	private static Jeu j;
+	protected static Jeu j;
 
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
