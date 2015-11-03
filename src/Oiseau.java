@@ -5,6 +5,8 @@ import java.awt.Point;
 public class Oiseau extends Entite {
 
 	boolean lance = false;
+	
+	int directionY = 0;
 
 	int[] px = new int[3];
 	int[] py = new int[3];
@@ -55,6 +57,7 @@ public class Oiseau extends Entite {
 	 */
 	public void bouger(int x, int y) {
 		super.bouger(x, y);
+		directionY = y;
 		for (int i = 0; i < px.length; i++) {
 			px[i] += x;
 			py[i] += y;

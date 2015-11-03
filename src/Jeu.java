@@ -26,6 +26,7 @@ import javax.swing.JPanel;
  * @author youdelice
  */
 
+@SuppressWarnings("serial")
 public class Jeu extends JPanel {
 
 	protected JFrame f;
@@ -70,7 +71,6 @@ public class Jeu extends JPanel {
 					try {
 						jouerSon("slingshot.wav");
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -119,16 +119,17 @@ public class Jeu extends JPanel {
 
 		AffineTransform old = g2d.getTransform();
 		AffineTransform trans = new AffineTransform();
-		trans.rotate(Math.toRadians(0), o.co.x + o.taille / 2, o.co.y + o.taille / 2);
+		trans.rotate(Math.toRadians(o.directionY * 35), o.co.x + o.taille / 2, o.co.y + o.taille / 2);
 
 		g2d.transform(trans);
-		
-		// draw what will be rotated
+
+		// Ce qui pivotera
+
 		o.paintComponent(this, g2d);
 
 		g2d.setTransform(old);
 
-		// draw what will not be rotated
+		// Ce qui ne pivotera pas
 
 		for (Ennemi e : ennemis) {
 			e.paintComponent(g2d);
