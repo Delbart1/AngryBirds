@@ -2,6 +2,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
+/**
+ * l'entite oiseau
+ * 
+ * @author youdelice
+ */
 public class Oiseau extends Entite {
 
 	boolean lance = false;
@@ -63,9 +68,21 @@ public class Oiseau extends Entite {
 			py[i] += y;
 			px2[i] += x;
 			py2[i] += y;
+                        /*Courbe c = new Courbe();
+                        px[i] += 2;
+			py[i] += (int) c.f(x);
+			px2[i] += 2;
+			py2[i] += (int) c.f(x);
+                        */
 		}
 	}
 
+        /**
+         * IHM de de l'oiseau
+         * 
+         * @param j 
+         * @param g graphic du jeu
+         */
 	public void paintComponent(Jeu j, Graphics g) {
 
 		// Elastique

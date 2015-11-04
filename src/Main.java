@@ -15,6 +15,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+/**
+ * le main du jeu
+ * 
+ * @author youdelice
+ */
 public class Main {
 
 	private static int nbEnnemis = 5;
@@ -41,7 +46,7 @@ public class Main {
 		retry.addMouseListener(new MouseAdapter() {
 
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) { //restart le jeu 
 				j = new Jeu(nbEnnemis);
 				f.setContentPane(j);
 				f.getContentPane().add(retry);
