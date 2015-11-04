@@ -127,7 +127,7 @@ public class Jeu extends JPanel {
 
 		AffineTransform old = g2d.getTransform();
 		AffineTransform trans = new AffineTransform();
-		trans.rotate(Math.toRadians(o.directionY * 35), o.co.x + o.taille / 2, o.co.y + o.taille / 2);
+		trans.rotate(Math.toRadians(o.directionY * 25), o.co.x + o.taille / 2, o.co.y + o.taille / 2);
 
 		g2d.transform(trans);
 
