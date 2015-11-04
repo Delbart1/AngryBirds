@@ -1,3 +1,6 @@
+package angrybirds;
+
+import angrybirds.Coordonne;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;

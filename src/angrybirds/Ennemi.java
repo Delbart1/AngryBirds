@@ -1,3 +1,6 @@
+package angrybirds;
+
+import angrybirds.Coordonne;
 import java.awt.Color;
 import java.util.Random;
 

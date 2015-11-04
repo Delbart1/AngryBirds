@@ -1,3 +1,5 @@
+package angrybirds;
+
 
 public class Coordonne {
 	

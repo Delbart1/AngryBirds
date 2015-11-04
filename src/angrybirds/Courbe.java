@@ -1,3 +1,5 @@
+package angrybirds;
+
 
 import java.applet.Applet;
 import java.awt.Graphics;
@@ -27,7 +29,6 @@ public class Courbe extends Applet {
          * @return Y selon X
          */
 	double f(double x) {
-            System.out.println("test1");
 		return a * Math.pow(x, 2) + b * x + c;
 	}
 
