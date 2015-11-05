@@ -31,7 +31,7 @@ import javax.swing.JPanel;
 
 public class Jeu extends JPanel {
 
-	protected JFrame f; 
+	protected JFrame f;
 
 	Random r = new Random();
 	boolean elastiqueTire = false;
@@ -39,17 +39,20 @@ public class Jeu extends JPanel {
 
 	private int nbLancers = 1;
 
+	int dureeVol = 0;
+
 	Oiseau o = new Oiseau(50);
-	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); //liste avec les ennemis 
+	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); // liste avec les
+															// ennemis
 
 	Coordonne coInit = new Coordonne(o.co.x, o.co.y);
 
-        
-        /**
-         * lancement du jeu avec le mouselistener
-         * 
-         * @param nbEnnemis     nmb d'ennemi voulu
-         */
+	/**
+	 * lancement du jeu avec le mouselistener
+	 * 
+	 * @param nbEnnemis
+	 *            nmb d'ennemi voulu
+	 */
 	public Jeu(int nbEnnemis) {
 
 		for (int i = 0; i < nbEnnemis; i++) {
@@ -65,7 +68,7 @@ public class Jeu extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				if (!o.lance)
+				if (!o.lance && elastiqueTire)
 					lancerOiseau();
 			}
 		});
@@ -73,17 +76,17 @@ public class Jeu extends JPanel {
 		this.addMouseMotionListener(new MouseMotionAdapter() {
 
 			@Override
-			public void mouseDragged(MouseEvent e) { //tire diffrent selon la coordonné du laché 
+			public void mouseDragged(MouseEvent e) { // tire diffrent selon la
+														// coordonné du laché
 				if (!elastiqueTire) {
 					elastiqueTire = true;
-					/*try {
+					try {
 						jouerSon("slingshot.wav");
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 						e1.printStackTrace();
-					}*/
+					}
 				}
 
-				// TODO Auto-generated method stub
 				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !o.lance) {
 					for (int i = 0; i < o.px.length; i++) {
 						o.px[i] += e.getX() - o.co.x;
@@ -115,7 +118,8 @@ public class Jeu extends JPanel {
 	/**
 	 * IHM creant le fond et les ennemis
 	 * 
-	 * @param g le graphique du jeu
+	 * @param g
+	 *            le graphique du jeu
 	 */
 	public void paintComponent(Graphics g) {
 
@@ -170,19 +174,17 @@ public class Jeu extends JPanel {
 
 		o.lance = true;
 
-		/*try {
+		try {
 			jouerSon("bird.wav");
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}*/
+		}
 
 		idDirection = r.nextInt(2) + 1;
 
 		TimerTask task = new TimerTask() {
 
-			@Override
-                        // animation du jeu
+			// animation du jeu
 			public void run() {
 				switch (idDirection) {
 				case 1:
@@ -194,20 +196,21 @@ public class Jeu extends JPanel {
 				}
 
 				ArrayList<Ennemi> ennemisMorts = new ArrayList<Ennemi>();
-				for (Ennemi e : ennemis) {  // regarde si l'oiseau touche un ennemie
+				for (Ennemi e : ennemis) { // regarde si l'oiseau touche un
+											// ennemie
 					if (collision(o, e)) {
 						o = new Oiseau(o.taille);
 						elastiqueTire = false;
 						this.cancel();
 						ennemisMorts.add(e);
-						if (nbLancers < 5) {
+						if (nbLancers < 10) {
 							nbLancers++;
 							lancerOiseau();
 						}
 
 					}
 				}
-				for (Ennemi e : ennemisMorts) { //retire l'ennemie de la liste 
+				for (Ennemi e : ennemisMorts) { // retire l'ennemie de la liste
 					ennemis.remove(e);
 				}
 				repaint();
@@ -216,11 +219,24 @@ public class Jeu extends JPanel {
 					o = new Oiseau(o.taille);
 					elastiqueTire = false;
 					this.cancel();
-					if (nbLancers < 5) {
+					if (nbLancers < 10) {
 						nbLancers++;
 						lancerOiseau();
 					}
 				}
+
+				dureeVol += 10;
+				if (dureeVol >= 15000) {
+					dureeVol = 0;
+					o = new Oiseau(o.taille);
+					elastiqueTire = false;
+					this.cancel();
+					if (nbLancers < 10) {
+						nbLancers++;
+						lancerOiseau();
+					}
+				}
+
 			}
 
 		};
@@ -229,11 +245,11 @@ public class Jeu extends JPanel {
 		timer.scheduleAtFixedRate(task, 0, 10);
 	}
 
-        /**
-         * lit le son du jeu
-         * 
-         */
-	/*public void jouerSon(String nomFichier)
+	/**
+	 * lit le son du jeu
+	 * 
+	 */
+	public void jouerSon(String nomFichier)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		URL url = Main.class.getResource(nomFichier);
 		final Clip clip = AudioSystem.getClip();
@@ -241,5 +257,5 @@ public class Jeu extends JPanel {
 			clip.open(audioIn);
 		}
 		clip.start();
-	}*/
+	}
 }
