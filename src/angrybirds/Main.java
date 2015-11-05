@@ -1,6 +1,8 @@
 package angrybirds;
 
 import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -48,7 +50,7 @@ public class Main {
 		retry.addMouseListener(new MouseAdapter() {
 
 			@Override
-			public void mousePressed(MouseEvent e) { //restart le jeu 
+			public void mousePressed(MouseEvent e) { // restart le jeu
 				j = new Jeu(nbEnnemis);
 				f.setContentPane(j);
 				f.getContentPane().add(retry);
@@ -58,8 +60,6 @@ public class Main {
 
 		});
 
-		
-
 		f.setContentPane(j);
 		f.getContentPane().add(retry);
 
@@ -68,6 +68,16 @@ public class Main {
 			public void windowOpened(WindowEvent e) {
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
 			}
+		});
+
+		f.addKeyListener(new KeyAdapter() {
+
+			public void keyPressed(KeyEvent e) {
+
+				if (e.getKeyCode() == KeyEvent.VK_M)
+					clip.stop();
+			}
+
 		});
 
 		f.pack();

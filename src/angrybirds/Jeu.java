@@ -3,6 +3,8 @@ package angrybirds;
 import angrybirds.Coordonne;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -29,6 +31,7 @@ import javax.swing.JPanel;
  * @author youdelice
  */
 
+@SuppressWarnings("serial")
 public class Jeu extends JPanel {
 
 	protected JFrame f;
