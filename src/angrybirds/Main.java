@@ -76,6 +76,8 @@ public class Main {
 
 				if (e.getKeyCode() == KeyEvent.VK_M)
 					clip.stop();
+				else if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+					System.exit(1);
 			}
 
 		});

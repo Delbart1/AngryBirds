@@ -1,10 +1,8 @@
 package angrybirds;
 
-import angrybirds.Coordonne;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -50,6 +48,8 @@ public class Jeu extends JPanel {
 
 	Coordonne coInit = new Coordonne(o.co.x, o.co.y);
 
+	ArrayList<Coordonne> trace = new ArrayList<>();
+
 	/**
 	 * lancement du jeu avec le mouselistener
 	 * 
@@ -71,8 +71,15 @@ public class Jeu extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				if (!o.lance && elastiqueTire)
+				if (!o.lance && elastiqueTire) {
 					lancerOiseau();
+					
+					try {
+						jouerSon("bird.wav");
+					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 
@@ -138,6 +145,14 @@ public class Jeu extends JPanel {
 
 		g2d.transform(trans);
 
+		g2d.setColor(Color.red);
+		for (Coordonne c : trace) {
+			g2d.fillOval(c.x, c.y, o.taille / 5, o.taille / 5);
+		}
+
+		if (o.lance && (o.co.x % 25) == 0)
+			trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
+
 		// Ce qui pivotera
 
 		o.paintComponent(this, g2d);
@@ -175,13 +190,8 @@ public class Jeu extends JPanel {
 	 */
 	public void lancerOiseau() {
 
+		elastiqueTire = true;
 		o.lance = true;
-
-		try {
-			jouerSon("bird.wav");
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-			e1.printStackTrace();
-		}
 
 		idDirection = r.nextInt(2) + 1;
 
@@ -202,15 +212,9 @@ public class Jeu extends JPanel {
 				for (Ennemi e : ennemis) { // regarde si l'oiseau touche un
 											// ennemie
 					if (collision(o, e)) {
-						o = new Oiseau(o.taille);
-						elastiqueTire = false;
 						this.cancel();
 						ennemisMorts.add(e);
-						if (nbLancers < 10) {
-							nbLancers++;
-							lancerOiseau();
-						}
-
+						nouveauLancer();
 					}
 				}
 				for (Ennemi e : ennemisMorts) { // retire l'ennemie de la liste
@@ -219,25 +223,14 @@ public class Jeu extends JPanel {
 				repaint();
 
 				if (o.co.x > 800) {
-					o = new Oiseau(o.taille);
-					elastiqueTire = false;
 					this.cancel();
-					if (nbLancers < 10) {
-						nbLancers++;
-						lancerOiseau();
-					}
+					nouveauLancer();
 				}
 
 				dureeVol += 10;
 				if (dureeVol >= 15000) {
-					dureeVol = 0;
-					o = new Oiseau(o.taille);
-					elastiqueTire = false;
 					this.cancel();
-					if (nbLancers < 10) {
-						nbLancers++;
-						lancerOiseau();
-					}
+					nouveauLancer();
 				}
 
 			}
@@ -246,6 +239,7 @@ public class Jeu extends JPanel {
 
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 10);
+
 	}
 
 	/**
@@ -260,5 +254,16 @@ public class Jeu extends JPanel {
 			clip.open(audioIn);
 		}
 		clip.start();
+	}
+
+	public void nouveauLancer() {
+		dureeVol = 0;
+		o = new Oiseau(o.taille);
+		elastiqueTire = false;
+		trace = new ArrayList<>();
+		if (nbLancers < 10) {
+			nbLancers++;
+			lancerOiseau();
+		}
 	}
 }
