@@ -10,12 +10,13 @@ import java.util.Random;
  * 
  * @author youdelice
  */
-public class Courbe extends Applet {
+public class Courbe {
 
-	private double a; // angle
-	private double b;// hauteur
-	private double c; // point de départ ?
+	private double a = -0.00005; // angle
+	private double b = 0.0001;// hauteur
+	private double c = 0;
         private Oiseau o;
+        private Jeu j;
         
 	public Courbe(Oiseau o) {
             this.o = o;
@@ -29,7 +30,9 @@ public class Courbe extends Applet {
          * @return Y selon X
          */
 	double f(double x) {
-		return a * Math.pow(x, 2) + b * x + c;
+            double r = a * Math.pow(x, 2) + b * x + c;
+            System.out.println("x="+x+"; r="+r);
+		return r;
 	}
 
         /**
@@ -74,10 +77,10 @@ public class Courbe extends Applet {
 	}
 
 	public void paint(Graphics g) {
-		for (int x = 0; x < getSize().width; x++) {
+		for (int x = 0; x < j.getSize().width; x++) {
 			g.drawLine(x, (int) f(x), x + 1, (int) f(x + 1));
 
 		}
-		System.out.println(getSize());
+		System.out.println(j.getSize());
 	}
 }

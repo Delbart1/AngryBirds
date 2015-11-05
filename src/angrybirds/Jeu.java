@@ -76,11 +76,11 @@ public class Jeu extends JPanel {
 			public void mouseDragged(MouseEvent e) { //tire diffrent selon la coordonné du laché 
 				if (!elastiqueTire) {
 					elastiqueTire = true;
-					/*try {
+					try {
 						jouerSon("slingshot.wav");
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 						e1.printStackTrace();
-					}*/
+					}
 				}
 
 				// TODO Auto-generated method stub
@@ -170,12 +170,12 @@ public class Jeu extends JPanel {
 
 		o.lance = true;
 
-		/*try {
+		try {
 			jouerSon("bird.wav");
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}*/
+		}
 
 		idDirection = r.nextInt(2) + 1;
 
@@ -184,6 +184,7 @@ public class Jeu extends JPanel {
 			@Override
                         // animation du jeu
 			public void run() {
+                            System.out.println("passage");
 				switch (idDirection) {
 				case 1:
 					o.bouger(2, 0);
@@ -233,7 +234,7 @@ public class Jeu extends JPanel {
          * lit le son du jeu
          * 
          */
-	/*public void jouerSon(String nomFichier)
+	public void jouerSon(String nomFichier)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		URL url = Main.class.getResource(nomFichier);
 		final Clip clip = AudioSystem.getClip();
@@ -241,5 +242,5 @@ public class Jeu extends JPanel {
 			clip.open(audioIn);
 		}
 		clip.start();
-	}*/
+	}
 }

@@ -15,6 +15,7 @@ public abstract class Entite {
 		this.co.x += x;
 		// if(y >= )
 		this.co.y += y;
+                
 	}
 
 	/**
