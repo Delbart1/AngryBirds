@@ -199,6 +199,7 @@ public class Jeu extends JPanel {
 
 			// animation du jeu
 			public void run() {
+                            System.out.println("passage");
 				switch (idDirection) {
 				case 1:
 					o.bouger(2, 0);
@@ -242,10 +243,17 @@ public class Jeu extends JPanel {
 
 	}
 
+<<<<<<< HEAD
+        /**
+         * lit le son du jeu
+         * 
+         */
+=======
 	/**
 	 * lit le son du jeu
 	 * 
 	 */
+>>>>>>> 2321c8512d452cfb2544485fafe9f671e2ac3aab
 	public void jouerSon(String nomFichier)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		URL url = Main.class.getResource(nomFichier);
