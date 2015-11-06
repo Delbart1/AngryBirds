@@ -13,7 +13,6 @@ public abstract class Entite {
 
 	public void bouger(int x, int y) {
 		this.co.x += x;
-		// if(y >= )
 		this.co.y += y;
                 
 	}

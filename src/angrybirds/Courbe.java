@@ -1,83 +1,63 @@
 package angrybirds;
 
-import java.applet.Applet;
-import java.awt.Graphics;
-
 /**
  * calcule de la courbe de l'oiseau
  * 
  * @author youdelice
  */
-@SuppressWarnings("serial")
-public class Courbe extends Applet {
+public class Courbe {
 
-	private double a; // angle
-	private double b;// hauteur
-	private double c; // point de départ ?
-	private Oiseau o;
+	Coordonne[] pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(160, 150),
+			new Coordonne(450, 300), new Coordonne(750, 100) };
 
-	public Courbe(Oiseau o) {
-		this.o = o;
+	int index = 0;
+	
+	public Courbe(){
+		
 	}
 
-	/**
-	 * cacul d'une fonction du second degrée
-	 * 
-	 * @param x
-	 *            coord X
-	 * @return Y selon X
-	 */
-	double f(double x) {
-		return a * Math.pow(x, 2) + b * x + c;
+	public Coordonne coordSuivante(double dureeVol) {
+
+		int x = (int) (Math.pow(1 - dureeVol, 3) * pointsBezier[0].x
+				+ 3 * Math.pow(1 - dureeVol, 2) * dureeVol * pointsBezier[1].x
+				+ 3 * (1 - dureeVol) * Math.pow(dureeVol, 2) * pointsBezier[2].x
+				+ Math.pow(dureeVol, 3) * pointsBezier[3].x);
+
+		int y = (int) (Math.pow(1 - dureeVol, 3) * pointsBezier[0].y
+				+ 3 * Math.pow(1 - dureeVol, 2) * dureeVol * pointsBezier[1].y
+				+ 3 * (1 - dureeVol) * Math.pow(dureeVol, 2) * pointsBezier[2].y
+				+ Math.pow(dureeVol, 3) * pointsBezier[3].y);
+
+		return new Coordonne(x, y);
 	}
 
-	/**
-	 * return le coef directeur de l'oiseau
-	 * 
-	 * @param x
-	 *            coord X
-	 * @return le coef directeur
-	 */
-	public double getCoefD(int x) {
-		double coef1;
-		double coef2;
-		coef1 = (f(x) - f(x + 1));
-		coef2 = (x - (x + 1));
-		return coef2 / coef1;
-	}
+	public void courbeSuivante() {
 
-	/**
-	 * 
-	 * return le coef directeur de la courbe
-	 * 
-	 * @param x
-	 * @return
-	 */
-	public double getCoefDy(int x) {
-		return f(x) - f(x - 1);
-	}
-
-	/**
-	 * 
-	 * 
-	 * 
-	 * @param x
-	 * @return
-	 */
-	public double angleNext(int x) {
-		double tmp = getCoefD(x);
-		if (tmp < 0) {
-			return Math.PI / 2 - Math.atan(1 / getCoefDy(x)) + Math.PI;
-		} else {
-			return Math.PI / 2 - Math.atan(1 / getCoefDy(x));
+		index++;
+		switch (index) {
+		case 1:
+			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(100, 550), new Coordonne(200, 30),
+					new Coordonne(700, 50) };
+			break;
+		case 2:
+			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(400, 200), new Coordonne(200, 60),
+					new Coordonne(700, 350) };
+			break;
+		case 3:
+			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(260, 500), new Coordonne(450, 550),
+					new Coordonne(700, 350) };
+			break;
+		case 4:
+			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(200, 550), new Coordonne(350, 50),
+					new Coordonne(700, 400) };
+			break;
+		case 5:
+			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(250, 200), new Coordonne(400, 25),
+					new Coordonne(700, 550) };
+			index = 0;
+			break;
 		}
+
 	}
 
-	public void paint(Graphics g) {
-		for (int x = 0; x < getSize().width; x++) {
-			g.drawLine(x, (int) f(x), x + 1, (int) f(x + 1));
-
-		}
-		System.out.println(getSize());
-	}
 }

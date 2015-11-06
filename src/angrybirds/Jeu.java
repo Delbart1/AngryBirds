@@ -36,19 +36,18 @@ public class Jeu extends JPanel {
 
 	Random r = new Random();
 	boolean elastiqueTire = false;
-	private int idDirection;
 
 	private int nbLancers = 1;
 
-	int dureeVol = 0;
+	double dureeVol = 0.0;
 
 	Oiseau o = new Oiseau(50);
 	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); // liste avec les
 															// ennemis
 
-	Coordonne coInit = new Coordonne(o.co.x, o.co.y);
-
 	ArrayList<Coordonne> trace = new ArrayList<>();
+	
+	Courbe courbeSuivie = new Courbe();
 
 	/**
 	 * lancement du jeu avec le mouselistener
@@ -73,7 +72,7 @@ public class Jeu extends JPanel {
 			public void mouseReleased(MouseEvent arg0) {
 				if (!o.lance && elastiqueTire) {
 					lancerOiseau();
-					
+
 					try {
 						jouerSon("bird.wav");
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
@@ -97,7 +96,7 @@ public class Jeu extends JPanel {
 					}
 				}
 
-				if (e.getX() >= coInit.x - 50 && e.getX() < coInit.x + 50 && !o.lance) {
+				if (e.getX() >= o.coInit.x - 50 && e.getX() < o.coInit.x + 50 && !o.lance) {
 					for (int i = 0; i < o.px.length; i++) {
 						o.px[i] += e.getX() - o.co.x;
 
@@ -106,22 +105,19 @@ public class Jeu extends JPanel {
 					o.co.x = e.getX();
 					repaint();
 				}
-				if (e.getY() >= coInit.y - 50 && e.getY() < coInit.y + 50 && !o.lance) {
+				if (e.getY() >= o.coInit.y - 50 && e.getY() < o.coInit.y + 50 && !o.lance) {
 					for (int i = 0; i < o.px.length; i++) {
 						o.py[i] += e.getY() - o.co.y;
 
 						o.py2[i] += e.getY() - o.co.y;
 					}
 					o.co.y = e.getY();
-					if (o.co.y <= coInit.y + 25) {
-						idDirection = 1;
-					} else {
-						idDirection = 2;
-					}
 					repaint();
 				}
 			}
 		});
+
+		lancerOiseau();
 
 	}
 
@@ -137,21 +133,18 @@ public class Jeu extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 
 		g.drawImage(new ImageIcon(Main.class.getResource("fond2.png")).getImage(), 0, 0, null);
-		g.drawImage(new ImageIcon(Main.class.getResource("slingshot.png")).getImage(), coInit.x + 10, 410, null);
+		g.drawImage(new ImageIcon(Main.class.getResource("slingshot.png")).getImage(), o.coInit.x + 10, 410, null);
+
+		g2d.setColor(Color.red);
+		for (Coordonne c : trace) {
+			g.fillOval(c.x, c.y, o.taille / 5, o.taille / 5);
+		}
 
 		AffineTransform old = g2d.getTransform();
 		AffineTransform trans = new AffineTransform();
 		trans.rotate(Math.toRadians(o.directionY * 25), o.co.x + o.taille / 2, o.co.y + o.taille / 2);
 
 		g2d.transform(trans);
-
-		g2d.setColor(Color.red);
-		for (Coordonne c : trace) {
-			g2d.fillOval(c.x, c.y, o.taille / 5, o.taille / 5);
-		}
-
-		if (o.lance && (o.co.x % 25) == 0)
-			trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
 
 		// Ce qui pivotera
 
@@ -165,7 +158,7 @@ public class Jeu extends JPanel {
 			e.paintComponent(g2d);
 		}
 
-		g2d.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), coInit.x + 10, 410, null);
+		g2d.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), o.coInit.x + 10, 410, null);
 		g2d.drawImage(new ImageIcon(Main.class.getResource("caisse.png")).getImage(), 0, 480, null);
 	}
 
@@ -193,21 +186,12 @@ public class Jeu extends JPanel {
 		elastiqueTire = true;
 		o.lance = true;
 
-		idDirection = r.nextInt(2) + 1;
-
 		TimerTask task = new TimerTask() {
 
 			// animation du jeu
 			public void run() {
-                            System.out.println("passage");
-				switch (idDirection) {
-				case 1:
-					o.bouger(2, 0);
-					break;
-				case 2:
-					o.bouger(2, -1);
-					break;
-				}
+
+				o.setCoord(courbeSuivie.coordSuivante(dureeVol));
 
 				ArrayList<Ennemi> ennemisMorts = new ArrayList<Ennemi>();
 				for (Ennemi e : ennemis) { // regarde si l'oiseau touche un
@@ -228,32 +212,28 @@ public class Jeu extends JPanel {
 					nouveauLancer();
 				}
 
-				dureeVol += 10;
-				if (dureeVol >= 15000) {
+				dureeVol += 0.01;
+				if (dureeVol >= 15) {
 					this.cancel();
 					nouveauLancer();
 				}
 
+				if ((o.co.x % 10) == 0)
+					trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
+				
 			}
 
 		};
 
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 10);
+		timer.scheduleAtFixedRate(task, 1000, 10);
 
 	}
 
-<<<<<<< HEAD
-        /**
-         * lit le son du jeu
-         * 
-         */
-=======
 	/**
 	 * lit le son du jeu
 	 * 
 	 */
->>>>>>> 2321c8512d452cfb2544485fafe9f671e2ac3aab
 	public void jouerSon(String nomFichier)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		URL url = Main.class.getResource(nomFichier);
@@ -265,10 +245,11 @@ public class Jeu extends JPanel {
 	}
 
 	public void nouveauLancer() {
-		dureeVol = 0;
+		dureeVol = 0.0;
 		o = new Oiseau(o.taille);
 		elastiqueTire = false;
 		trace = new ArrayList<>();
+		courbeSuivie.courbeSuivante();
 		if (nbLancers < 10) {
 			nbLancers++;
 			lancerOiseau();
