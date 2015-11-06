@@ -11,22 +11,25 @@ public class Courbe {
 			new Coordonne(700, 100), new Coordonne(700, 400) };
 
 	int index = 0;
-	
-	public Courbe(){
-		
+
+	public Courbe() {
+
 	}
 
-	public Coordonne coordSuivante(double dureeVol) {
+	public double directionBec(double t) {
+		Coordonne c1 = coordSuivante(t);
+		Coordonne c2 = coordSuivante(t + 0.01);
 
-		int x = (int) (Math.pow(1 - dureeVol, 3) * pointsBezier[0].x
-				+ 3 * Math.pow(1 - dureeVol, 2) * dureeVol * pointsBezier[1].x
-				+ 3 * (1 - dureeVol) * Math.pow(dureeVol, 2) * pointsBezier[2].x
-				+ Math.pow(dureeVol, 3) * pointsBezier[3].x);
+		return (c2.y - c1.y) / 5.0;
+	}
 
-		int y = (int) (Math.pow(1 - dureeVol, 3) * pointsBezier[0].y
-				+ 3 * Math.pow(1 - dureeVol, 2) * dureeVol * pointsBezier[1].y
-				+ 3 * (1 - dureeVol) * Math.pow(dureeVol, 2) * pointsBezier[2].y
-				+ Math.pow(dureeVol, 3) * pointsBezier[3].y);
+	public Coordonne coordSuivante(double t) {
+
+		int x = (int) (Math.pow(1 - t, 3) * pointsBezier[0].x + 3 * Math.pow(1 - t, 2) * t * pointsBezier[1].x
+				+ 3 * (1 - t) * Math.pow(t, 2) * pointsBezier[2].x + Math.pow(t, 3) * pointsBezier[3].x);
+
+		int y = (int) (Math.pow(1 - t, 3) * pointsBezier[0].y + 3 * Math.pow(1 - t, 2) * t * pointsBezier[1].y
+				+ 3 * (1 - t) * Math.pow(t, 2) * pointsBezier[2].y + Math.pow(t, 3) * pointsBezier[3].y);
 
 		return new Coordonne(x, y);
 	}
@@ -36,8 +39,8 @@ public class Courbe {
 		index++;
 		switch (index) {
 		case 0:
-			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(120, 100),
-					new Coordonne(700, 100), new Coordonne(700, 400) };
+			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(120, 100), new Coordonne(700, 100),
+					new Coordonne(700, 400) };
 			break;
 		case 1:
 			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(130, 0), new Coordonne(150, 550),

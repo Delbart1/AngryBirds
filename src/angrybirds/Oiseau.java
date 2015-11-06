@@ -13,7 +13,7 @@ import java.util.Random;
 public class Oiseau extends Entite {
 
 	boolean lance = false;
-	int directionY = 0;
+	double directionY = 0.0;
 	int[] px = new int[3];
 	int[] py = new int[3];
 	int[] px2 = new int[3];

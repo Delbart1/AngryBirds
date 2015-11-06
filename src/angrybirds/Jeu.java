@@ -213,13 +213,15 @@ public class Jeu extends JPanel {
 				}
 
 				t += 0.005;
-				if (t * 2 >= 15) {
+				if (t * 2 >= 7) {
 					this.cancel();
 					nouveauLancer();
 				}
 
 				if ((o.co.x % 20) == 0)
 					trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
+				
+				o.directionY = courbeSuivie.directionBec(t);
 				
 			}
 
