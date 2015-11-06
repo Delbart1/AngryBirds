@@ -218,7 +218,7 @@ public class Jeu extends JPanel {
 					nouveauLancer();
 				}
 
-				if ((o.co.x % 10) == 0)
+				if ((o.co.x % 20) == 0)
 					trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
 				
 			}

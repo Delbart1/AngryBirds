@@ -8,7 +8,7 @@ package angrybirds;
 public class Courbe {
 
 	Coordonne[] pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(120, 100),
-			new Coordonne(500, 100), new Coordonne(500, 400) };
+			new Coordonne(700, 100), new Coordonne(700, 400) };
 
 	int index = 0;
 	
@@ -35,25 +35,29 @@ public class Courbe {
 
 		index++;
 		switch (index) {
+		case 0:
+			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(120, 100),
+					new Coordonne(700, 100), new Coordonne(700, 400) };
+			break;
 		case 1:
-			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(100, 550), new Coordonne(200, 30),
-					new Coordonne(700, 50) };
+			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(130, 0), new Coordonne(150, 550),
+					new Coordonne(700, 450) };
 			break;
 		case 2:
 			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(400, 200), new Coordonne(200, 60),
-					new Coordonne(700, 350) };
+					new Coordonne(700, 250) };
 			break;
 		case 3:
 			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(260, 500), new Coordonne(450, 550),
-					new Coordonne(700, 350) };
+					new Coordonne(700, 150) };
 			break;
 		case 4:
 			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(200, 550), new Coordonne(350, 50),
-					new Coordonne(700, 400) };
+					new Coordonne(700, 200) };
 			break;
 		case 5:
 			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(250, 200), new Coordonne(400, 25),
-					new Coordonne(700, 550) };
+					new Coordonne(700, 450) };
 			index = 0;
 			break;
 		}
