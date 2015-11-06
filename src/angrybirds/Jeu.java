@@ -250,7 +250,7 @@ public class Jeu extends JPanel {
 		elastiqueTire = false;
 		trace = new ArrayList<>();
 		courbeSuivie.courbeSuivante();
-		if (nbLancers < 10) {
+		if (nbLancers < 7) {
 			nbLancers++;
 			lancerOiseau();
 		}

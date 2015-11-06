@@ -21,9 +21,6 @@ public class Oiseau extends Entite {
 
 	Random r = new Random();
 
-	// Courbe courbeSuivie = new Courbe(-0.005, 2, 0);
-
-
 	Coordonne coInit;
 
 	/**
