@@ -7,8 +7,8 @@ package angrybirds;
  */
 public class Courbe {
 
-	Coordonne[] pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(160, 150),
-			new Coordonne(450, 300), new Coordonne(750, 100) };
+	Coordonne[] pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(120, 100),
+			new Coordonne(500, 100), new Coordonne(500, 400) };
 
 	int index = 0;
 	

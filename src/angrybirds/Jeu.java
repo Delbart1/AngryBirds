@@ -39,7 +39,7 @@ public class Jeu extends JPanel {
 
 	private int nbLancers = 1;
 
-	double dureeVol = 0.0;
+	double t = 0.0;
 
 	Oiseau o = new Oiseau(50);
 	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); // liste avec les
@@ -191,7 +191,7 @@ public class Jeu extends JPanel {
 			// animation du jeu
 			public void run() {
 
-				o.setCoord(courbeSuivie.coordSuivante(dureeVol));
+				o.setCoord(courbeSuivie.coordSuivante(t));
 
 				ArrayList<Ennemi> ennemisMorts = new ArrayList<Ennemi>();
 				for (Ennemi e : ennemis) { // regarde si l'oiseau touche un
@@ -212,8 +212,8 @@ public class Jeu extends JPanel {
 					nouveauLancer();
 				}
 
-				dureeVol += 0.01;
-				if (dureeVol >= 15) {
+				t += 0.005;
+				if (t * 2 >= 15) {
 					this.cancel();
 					nouveauLancer();
 				}
@@ -245,7 +245,7 @@ public class Jeu extends JPanel {
 	}
 
 	public void nouveauLancer() {
-		dureeVol = 0.0;
+		t = 0.0;
 		o = new Oiseau(o.taille);
 		elastiqueTire = false;
 		trace = new ArrayList<>();
