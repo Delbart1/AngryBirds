@@ -19,11 +19,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+
 /**
- * le main du jeu
  * 
- * @author youdelice
+ * Classe creant la fenetre : doit etre lance pour executer le jeu
+ * 
+ * @author Thibaut
+ *
  */
+
 public class Main {
 
 	private static int nbEnnemis = 5;

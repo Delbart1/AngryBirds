@@ -24,9 +24,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * classe du jeu, avec les actions
  * 
- * @author youdelice
+ * Classe effectuant toutes les actions n�cessaires au fonctionnement du jeu
+ * 
+ * @author Thibaut
+ *
  */
 
 @SuppressWarnings("serial")
@@ -51,12 +53,14 @@ public class Jeu extends JPanel {
 
 	Courbe courbeSuivie = new Courbe();
 
+	
 	/**
-	 * lancement du jeu avec le mouselistener
+	 * 
+	 * Initialise le jeu et ajoute les Listeners
 	 * 
 	 * @param nbEnnemis
-	 *            nmb d'ennemi voulu
 	 */
+	
 	public Jeu(int nbEnnemis) {
 
 		for (int i = 0; i < nbEnnemis; i++) {
@@ -165,7 +169,7 @@ public class Jeu extends JPanel {
 	}
 
 	/**
-	 * geré la collision entre 2 entité
+	 * gere la collision entre 2 entites
 	 * 
 	 * @param e1
 	 *            une entite
@@ -180,7 +184,7 @@ public class Jeu extends JPanel {
 	}
 
 	/**
-	 * timer du jeu, retire les ennemi si toucher et le lancer de l'oiseau
+	 * timer du jeu, retire les ennemis si touche et le lance de l'oiseau
 	 * 
 	 */
 	public void lancerOiseau() {
@@ -262,6 +266,11 @@ public class Jeu extends JPanel {
 		clip.start();
 	}
 
+	/**
+	 * 
+	 * Reinisialise l'oiseau et effectue un nouveau lancer
+	 * 
+	 */
 	public void nouveauLancer() {
 		t = 0.0;
 		o = new Oiseau(o.taille);

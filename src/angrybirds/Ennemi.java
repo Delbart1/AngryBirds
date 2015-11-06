@@ -4,12 +4,14 @@ import angrybirds.Coordonne;
 import java.awt.Color;
 import java.util.Random;
 
-
 /**
- * l'entite ennemie
  * 
- * @author youdelice
+ * Classe créant les ennemis (cochons)
+ * 
+ * @author Thibaut
+ *
  */
+
 public class Ennemi extends Entite {
 
     /**

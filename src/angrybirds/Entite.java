@@ -4,6 +4,14 @@ import angrybirds.Coordonne;
 import java.awt.Color;
 import java.awt.Graphics;
 
+/**
+ * 
+ * Classe définissant une entité (objet ou personnage)
+ * 
+ * @author Thibaut
+ *
+ */
+
 public abstract class Entite {
 
 	Coordonne co;
@@ -14,7 +22,7 @@ public abstract class Entite {
 	public void bouger(int x, int y) {
 		this.co.x += x;
 		this.co.y += y;
-                
+
 	}
 
 	/**

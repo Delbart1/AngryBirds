@@ -1,6 +1,12 @@
 package angrybirds;
 
-
+/**
+ * 
+ * Classe permettant de connaitre les coordonnes sur la fenetre en renseignant x et y
+ * 
+ * @author Thibaut
+ *
+ */
 public class Coordonne {
 	
 	int x;
