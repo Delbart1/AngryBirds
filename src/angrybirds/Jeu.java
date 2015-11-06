@@ -42,7 +42,7 @@ public class Jeu extends JPanel {
 	double t = 0.0;
 
 	Oiseau o = new Oiseau(50);
-	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); // liste avec les
+	private ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); // liste avec les
 															// ennemis
 
 	ArrayList<Ennemi> ennemisMorts = new ArrayList<Ennemi>();
@@ -61,12 +61,12 @@ public class Jeu extends JPanel {
 
 		for (int i = 0; i < nbEnnemis; i++) {
 			Ennemi ennemitmp = new Ennemi(50);
-			for (Ennemi e : ennemis) {
+			for (Ennemi e : getEnnemis()) {
 				if (collision(e, ennemitmp)) {
 					ennemitmp = new Ennemi(50);
 				}
 			}
-			ennemis.add(ennemitmp);
+			getEnnemis().add(ennemitmp);
 		}
 		this.addMouseListener(new MouseAdapter() {
 
@@ -156,7 +156,7 @@ public class Jeu extends JPanel {
 
 		// Ce qui ne pivotera pas
 
-		for (Ennemi e : ennemis) {
+		for (Ennemi e : getEnnemis()) {
 			e.paintComponent(g2d);
 		}
 
@@ -198,14 +198,14 @@ public class Jeu extends JPanel {
 				o.setCoord(courbeSuivie.coordSuivante(t));
 				for (Ennemi e : ennemisMorts) { // retire l'ennemie de la liste
 					try {
-						ennemis.remove(e);
+						getEnnemis().remove(e);
 					} catch (Exception e2) {
 					}
 
 				}
 				repaint();
 
-				for (Ennemi e : ennemis) { // regarde si l'oiseau touche un
+				for (Ennemi e : getEnnemis()) { // regarde si l'oiseau touche un
 											// ennemie
 					if (collision(o, e)) {
 
@@ -272,5 +272,13 @@ public class Jeu extends JPanel {
 			nbLancers++;
 			lancerOiseau();
 		}
+	}
+
+	public ArrayList<Ennemi> getEnnemis() {
+		return ennemis;
+	}
+
+	public void setEnnemis(ArrayList<Ennemi> ennemis) {
+		this.ennemis = ennemis;
 	}
 }
