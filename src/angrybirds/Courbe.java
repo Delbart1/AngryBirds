@@ -8,7 +8,7 @@ package angrybirds;
 public class Courbe {
 
 	Coordonne[] pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(120, 100),
-			new Coordonne(700, 100), new Coordonne(700, 400) };
+			new Coordonne(700, 100), new Coordonne(800, 400) };
 
 	int index = 0;
 
@@ -40,7 +40,7 @@ public class Courbe {
 		switch (index) {
 		case 0:
 			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(120, 100), new Coordonne(700, 100),
-					new Coordonne(700, 400) };
+					new Coordonne(800, 400) };
 			break;
 		case 1:
 			pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(130, 0), new Coordonne(150, 550),
