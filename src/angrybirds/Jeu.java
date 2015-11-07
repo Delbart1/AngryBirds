@@ -39,38 +39,36 @@ public class Jeu extends JPanel {
 	Random r = new Random();
 	boolean elastiqueTire = false;
 
-	private int nbLancers = 1;
-
 	double t = 0.0;
 
 	Oiseau o = new Oiseau(50);
-	ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); // liste avec les
-															// ennemis
+	private ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); // liste avec
+																	// les
+	// ennemis
 
-	ArrayList<Ennemi> ennemisMorts = new ArrayList<Ennemi>();
+	Ennemi ennemiMort = null;
 
 	ArrayList<Coordonne> trace = new ArrayList<>();
 
-	Courbe courbeSuivie = new Courbe();
+	Courbe courbeSuivie = new Courbe(this);
 
-	
 	/**
 	 * 
 	 * Initialise le jeu et ajoute les Listeners
 	 * 
 	 * @param nbEnnemis
 	 */
-	
+
 	public Jeu(int nbEnnemis) {
 
 		for (int i = 0; i < nbEnnemis; i++) {
 			Ennemi ennemitmp = new Ennemi(50);
-			for (Ennemi e : ennemis) {
+			for (Ennemi e : getEnnemis()) {
 				if (collision(e, ennemitmp)) {
 					ennemitmp = new Ennemi(50);
 				}
 			}
-			ennemis.add(ennemitmp);
+			getEnnemis().add(ennemitmp);
 		}
 		this.addMouseListener(new MouseAdapter() {
 
@@ -91,8 +89,8 @@ public class Jeu extends JPanel {
 		this.addMouseMotionListener(new MouseMotionAdapter() {
 
 			@Override
-			public void mouseDragged(MouseEvent e) { // tire diffrent selon la
-														// coordonné du laché
+			public void mouseDragged(MouseEvent e) {
+
 				if (!elastiqueTire) {
 					elastiqueTire = true;
 					try {
@@ -120,10 +118,16 @@ public class Jeu extends JPanel {
 					o.co.y = e.getY();
 					repaint();
 				}
+
+				courbeSuivie.updateCoordOiseau();
+				courbeSuivie.updateCoordMilieu(o.coInit.y - (o.co.y - o.coInit.y) * 10);
+				if ((o.coInit.y - o.co.y) > 0)
+					courbeSuivie.updateCoordFin(
+							new Coordonne(o.coInit.x - (o.co.x - o.coInit.x) * 15, 475 + (o.coInit.y - o.co.y) * 5));
+				else
+					courbeSuivie.updateCoordFin(new Coordonne(o.coInit.x - (o.co.x - o.coInit.x) * 15, 475 - (o.coInit.y - o.co.y) * 5));
 			}
 		});
-
-		lancerOiseau();
 
 	}
 
@@ -160,7 +164,7 @@ public class Jeu extends JPanel {
 
 		// Ce qui ne pivotera pas
 
-		for (Ennemi e : ennemis) {
+		for (Ennemi e : getEnnemis()) {
 			e.paintComponent(g2d);
 		}
 
@@ -200,35 +204,23 @@ public class Jeu extends JPanel {
 			public void run() {
 
 				o.setCoord(courbeSuivie.coordSuivante(t));
-				for (Ennemi e : ennemisMorts) { // retire l'ennemie de la liste
-					try {
-						ennemis.remove(e);
-					} catch (Exception e2) {
-					}
 
-				}
-				repaint();
+				for (Ennemi e : getEnnemis()) {
 
-				for (Ennemi e : ennemis) { // regarde si l'oiseau touche un
-											// ennemie
 					if (collision(o, e)) {
-
 						this.cancel();
-						o.couleurPrincipale = new Color(50, 50, 100);
-						e.couleurPrincipale = new Color(20, 20, 20);
-						TimerTask relance = new TimerTask() {
-
-							@Override
-							public void run() {
-								ennemisMorts.add(e);
-								nouveauLancer();
-							}
-						};
-						timer.schedule(relance, 200);
+						ennemiMort = e;
 					}
+
 				}
 
-				if (o.co.x > 800) {
+				if (ennemiMort != null) {
+					getEnnemis().remove(ennemiMort);
+					ennemiMort = null;
+					nouveauLancer();
+				}
+
+				if (o.co.x > 800 || o.co.x < -o.taille || o.co.y > 700) {
 					this.cancel();
 					nouveauLancer();
 				}
@@ -244,11 +236,12 @@ public class Jeu extends JPanel {
 
 				o.directionY = courbeSuivie.directionBec(t);
 
+				repaint();
 			}
 
 		};
 
-		timer.scheduleAtFixedRate(task, 1000, 10);
+		timer.scheduleAtFixedRate(task, 0, 10);
 
 	}
 
@@ -276,10 +269,13 @@ public class Jeu extends JPanel {
 		o = new Oiseau(o.taille);
 		elastiqueTire = false;
 		trace = new ArrayList<>();
-		courbeSuivie.courbeSuivante();
-		if (nbLancers < 7) {
-			nbLancers++;
-			lancerOiseau();
-		}
+	}
+
+	public ArrayList<Ennemi> getEnnemis() {
+		return ennemis;
+	}
+
+	public void setEnnemis(ArrayList<Ennemi> ennemis) {
+		this.ennemis = ennemis;
 	}
 }

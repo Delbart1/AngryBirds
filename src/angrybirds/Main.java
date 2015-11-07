@@ -19,7 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-
 /**
  * 
  * Classe creant la fenetre : doit etre lance pour executer le jeu
@@ -70,7 +69,7 @@ public class Main {
 		f.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
-				clip.loop(Clip.LOOP_CONTINUOUSLY);
+				// clip.loop(Clip.LOOP_CONTINUOUSLY);
 			}
 		});
 

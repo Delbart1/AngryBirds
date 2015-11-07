@@ -21,7 +21,7 @@ public class Ennemi extends Entite {
      */
 	public Ennemi(int taille) {
 		Random r = new Random();
-		super.co = new Coordonne(r.nextInt(80) * 5 + 350, r.nextInt(500));
+		super.co = new Coordonne(r.nextInt(80) * 5 + 350, r.nextInt(475));
 		// position y pour le sol 525 - taille
 		this.taille = taille;
 		super.couleurPrincipale = new Color(97, 223, 69);

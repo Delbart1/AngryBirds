@@ -103,12 +103,6 @@ public class Oiseau extends Entite {
 	 */
 	public void paintComponent(Jeu j, Graphics g) {
 
-		// Elastique
-		if (!lance) {
-			g.setColor(new Color(51, 25, 0));
-			g.drawLine(co.x + taille / 2, co.y + taille / 2, 142, 435);
-		}
-
 		super.paintComponent(g);
 
 		// Corps inf�rieur

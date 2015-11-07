@@ -9,8 +9,8 @@ package angrybirds;
  */
 public class Coordonne {
 	
-	int x;
-	int y;
+	public int x;
+	public int y;
 	
 	public Coordonne(int x, int y){
 		this.x = x;
