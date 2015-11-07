@@ -1,3 +1,6 @@
 /src/nbproject/private/
 nbproject
 src/angrybirds/Courbe.java
+*.class
+*.cld
+*.class
