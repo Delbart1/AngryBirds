@@ -62,8 +62,6 @@ public class Courbe {
 	}
 
 	public void updateCoordMilieu(int y) {
-		if (y > 475)
-			y = 475;
 		pointsBezier[1].setY(y);
 	}
 

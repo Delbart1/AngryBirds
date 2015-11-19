@@ -42,15 +42,15 @@ public class Jeu extends JPanel {
 	double t = 0.0;
 
 	Oiseau o = new Oiseau(50);
-	private ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); // liste avec
-																	// les
-	// ennemis
+	private ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); 
 
 	Ennemi ennemiMort = null;
 
 	ArrayList<Coordonne> trace = new ArrayList<>();
 
 	Courbe courbeSuivie = new Courbe(this);
+	
+	int rayonLancer = 75;
 
 	/**
 	 * 
@@ -100,7 +100,7 @@ public class Jeu extends JPanel {
 					}
 				}
 
-				if (e.getX() >= o.coInit.x - 50 && e.getX() < o.coInit.x + 50 && !o.lance) {
+				if (e.getX() >= o.coInit.x - rayonLancer && e.getX() < o.coInit.x + rayonLancer && !o.lance) {
 					for (int i = 0; i < o.px.length; i++) {
 						o.px[i] += e.getX() - o.co.x;
 
@@ -109,7 +109,7 @@ public class Jeu extends JPanel {
 					o.co.x = e.getX();
 					repaint();
 				}
-				if (e.getY() >= o.coInit.y - 50 && e.getY() < o.coInit.y + 50 && !o.lance) {
+				if (e.getY() >= o.coInit.y - rayonLancer && e.getY() < o.coInit.y + rayonLancer && !o.lance) {
 					for (int i = 0; i < o.px.length; i++) {
 						o.py[i] += e.getY() - o.co.y;
 

@@ -24,8 +24,8 @@ public class RepresentationCourbe extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
-		c.updateCoordMilieu(300);
-		c.updateCoordFin(new Coordonne(350, 600));
+		c.updateCoordMilieu(100);
+		c.updateCoordFin(new Coordonne(600, 600));
 
 		for (double i = 0.0; i < 1.0; i += 0.005) {
 			Coordonne co = c.coordSuivante(i);

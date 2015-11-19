@@ -103,7 +103,17 @@ public class Oiseau extends Entite {
 	 */
 	public void paintComponent(Jeu j, Graphics g) {
 
-		super.paintComponent(g);
+		// Cell-shading
+		g.setColor(Color.BLACK);
+		g.fillOval(co.x - 3, co.y - 3, taille + 6, taille + 6);
+
+		// Corps
+		g.setColor(couleurPrincipale);
+		g.fillOval(co.x, co.y, taille, taille);
+
+		// Corps inferieur
+		g.setColor(couleurSecondaire);
+		g.fillOval(co.x + 5, co.y + taille / 2, taille - 10, taille / 2);
 
 		// Corps inf�rieur
 		g.setColor(couleurSecondaire);
