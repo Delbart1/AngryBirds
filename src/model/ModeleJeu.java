@@ -4,10 +4,20 @@
  */
 package model;
 
+import Vue.VueEnnemie;
+import Vue.VueJeu;
+import Vue.VueOiseau;
+import java.util.Observable;
+
 /**
  *
  * @author youdelice
  */
-public class ModeleJeu {
+public class ModeleJeu extends Observable {
     
+    public ModeleJeu(){
+    
+    
+    
+    }
 }

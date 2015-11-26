@@ -12,6 +12,7 @@ import model.ModeleJeu;
  * @author youdelice
  */
 public class ControlJeu {
-    ModeleJeu modeleJeu = new ModeleJeu();
-    VueJeu vuejeu = new Vue(modeleJeu);
+    
+    
+    
 }
