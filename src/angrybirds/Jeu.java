@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 
 /**
  * 
- * Classe effectuant toutes les actions nécessaires au fonctionnement du jeu
+ * Classe effectuant toutes les actions nï¿½cessaires au fonctionnement du jeu
  * 
  * @author Thibaut
  *
@@ -219,6 +219,11 @@ public class Jeu extends JPanel {
 					ennemiMort = null;
 					nouveauLancer();
 				}
+                                
+                                if(o.co.y > 475){
+                                    this.cancel();
+                                    nouveauLancer();
+                                }
 
 				if (o.co.x > 800 || o.co.x < -o.taille || o.co.y > 700) {
 					this.cancel();
@@ -230,8 +235,9 @@ public class Jeu extends JPanel {
 					this.cancel();
 					nouveauLancer();
 				}
-
-				if ((o.co.x % 20) == 0)
+                                
+				if ((o.co.x % 10) <= 3 )
+                                    
 					trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
 
 				o.directionY = courbeSuivie.directionBec(t);
