@@ -16,9 +16,9 @@ import java.util.Observer;
  */
 public class VueOiseau implements Observer{
     
-    public VueOiseau(Graphics g){
+    public VueOiseau(){
         
-}
+    }
 
     @Override
     public void update(Observable o, Object arg) {
