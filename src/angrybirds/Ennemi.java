@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  * 
- * Classe créant les ennemis (cochons)
+ * Classe crï¿½ant les ennemis (cochons)
  * 
  * @author Thibaut
  *

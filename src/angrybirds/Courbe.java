@@ -2,8 +2,8 @@ package angrybirds;
 
 /**
  * 
- * Classe gérant la courbe lors de la progression de l'oiseau. La courbe est une
- * courbe de Bezier paramétrée avec 4 points
+ * Classe gï¿½rant la courbe lors de la progression de l'oiseau. La courbe est une
+ * courbe de Bezier paramï¿½trï¿½e avec 4 points
  * 
  * @author Thibaut
  *
@@ -23,11 +23,11 @@ public class Courbe {
 
 	/**
 	 * 
-	 * Renvoie le facteur utilisé pour faire pivoter l'oiseau
+	 * Renvoie le facteur utilisï¿½ pour faire pivoter l'oiseau
 	 * 
 	 * @param t
 	 *            Temps
-	 * @return facteur de l'opération de rotation
+	 * @return facteur de l'opï¿½ration de rotation
 	 */
 
 	public double directionBec(double t) {
@@ -39,11 +39,11 @@ public class Courbe {
 
 	/**
 	 * 
-	 * Renvoie la prochaine coordonnée de l'oiseau en suivant la courbe
+	 * Renvoie la prochaine coordonnï¿½e de l'oiseau en suivant la courbe
 	 * 
 	 * @param t
 	 *            Temps
-	 * @return Nouvelle coordonnée
+	 * @return Nouvelle coordonnï¿½e
 	 */
 
 	public Coordonne coordSuivante(double t) {
@@ -58,7 +58,7 @@ public class Courbe {
 	}
 
 	public void updateCoordOiseau() {
-		pointsBezier[0] = new Coordonne(jeu.o.co.x, jeu.o.co.y);
+		pointsBezier[0] = new Coordonne(jeu.o.getModel().getCo().x, jeu.o.getModel().getCo().y);
 	}
 
 	public void updateCoordMilieu(int y) {

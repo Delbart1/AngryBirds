@@ -4,14 +4,17 @@
  */
 package controller;
 
-import Vue.VueJeu;
-import model.ModeleJeu;
+import model.ModeleOiseau;
 
 /**
  *
  * @author youdelice
  */
-public class ControlJeu {
+public class ControllerOiseau extends Controller {
+
+    public ControllerOiseau(ModeleOiseau modeleOiseau) {
+        
+    }
     
     
     

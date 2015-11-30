@@ -1,5 +1,10 @@
 package angrybirds;
 
+import Vue.Vue;
+import Vue.VueEnnemie;
+import Vue.VueOiseau;
+import controller.ControllerEnnemie;
+import controller.ControllerOiseau;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,6 +15,7 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,266 +28,320 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import model.Model;
+import model.ModeleEnnemie;
+import model.ModeleOiseau;
 
 /**
- * 
+ *
  * Classe effectuant toutes les actions n�cessaires au fonctionnement du jeu
- * 
+ *
  * @author Thibaut
  *
  */
-
 @SuppressWarnings("serial")
 public class Jeu extends JPanel {
 
-	protected JFrame f;
+    protected JFrame f;
+    Random r = new Random();
+    boolean elastiqueTire = false;
+    double t = 0.0;
+    VueOiseau o = null;
+    private ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
+    private ArrayList<Vue> objetsVue = new ArrayList<>();
+    VueEnnemie ennemiMort = null;
+    ArrayList<Coordonne> trace = new ArrayList<>();
+    Courbe courbeSuivie = new Courbe(this);
+    int rayonLancer = 75;
 
-	Random r = new Random();
-	boolean elastiqueTire = false;
+    /**
+     *
+     * Initialise le jeu et ajoute les Listeners
+     *
+     * @param nbEnnemis
+     */
+    public Jeu(int nbEnnemis) {
+        VueEnnemie ennemitmp = null;
+        for (int i = 0; i < nbEnnemis; i++) {
+            ModeleEnnemie modeleEnnemie = new ModeleEnnemie(50);
+            ControllerEnnemie controllerEnnemie = new ControllerEnnemie();
+            VueEnnemie vueEnnemie = new VueEnnemie(modeleEnnemie, controllerEnnemie);
+            modeleEnnemie.addObserver(vueEnnemie);
 
-	double t = 0.0;
+            for (Vue e : objetsVue) {
+                if (collision(e, ennemitmp)) {
+                    ennemitmp = vueEnnemie;
+                }
 
-	Oiseau o = new Oiseau(50);
-	private ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>(); 
 
-	Ennemi ennemiMort = null;
+            }
 
-	ArrayList<Coordonne> trace = new ArrayList<>();
+            if (ennemitmp == null) {
+                ennemitmp = vueEnnemie;
+            }
 
-	Courbe courbeSuivie = new Courbe(this);
-	
-	int rayonLancer = 75;
+            addEnnemi(vueEnnemie);
+        }
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+                if (!((ModeleOiseau) o.getModel()).estLance() && elastiqueTire) {
+                    lancerOiseau();
 
-	/**
-	 * 
-	 * Initialise le jeu et ajoute les Listeners
-	 * 
-	 * @param nbEnnemis
-	 */
+                    try {
+                        jouerSon("bird.wav");
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
 
-	public Jeu(int nbEnnemis) {
+        this.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
 
-		for (int i = 0; i < nbEnnemis; i++) {
-			Ennemi ennemitmp = new Ennemi(50);
-			for (Ennemi e : getEnnemis()) {
-				if (collision(e, ennemitmp)) {
-					ennemitmp = new Ennemi(50);
-				}
-			}
-			getEnnemis().add(ennemitmp);
-		}
-		this.addMouseListener(new MouseAdapter() {
+                if (!elastiqueTire) {
+                    elastiqueTire = true;
+                    try {
+                        jouerSon("slingshot.wav");
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                        e1.printStackTrace();
+                    }
+                }
 
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				if (!o.lance && elastiqueTire) {
-					lancerOiseau();
+                ModeleOiseau o2 = (ModeleOiseau) o.getModel();
 
-					try {
-						jouerSon("bird.wav");
-					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-						e1.printStackTrace();
-					}
-				}
-			}
-		});
 
-		this.addMouseMotionListener(new MouseMotionAdapter() {
+                if (e.getX() >= o2.getCoInit().x - rayonLancer && e.getX() < o2.getCoInit().x + rayonLancer && !o2.estLance()) {
+                    /*for (int i = 0; i < o.px.length; i++) {
+                     o.px[i] += e.getX() - o.getCo().x;
 
-			@Override
-			public void mouseDragged(MouseEvent e) {
+                     //   o.px2[i] += e.getX() - o.getCo().x;
+                     }*/
+                    o2.getCo().setX(e.getX());
+                    repaint();
+                }
+                if (e.getY() >= o2.getCoInit().y - rayonLancer && e.getY() < o2.getCoInit().y + rayonLancer && !o2.estLance()) {
+                    /* for (int i = 0; i < o.px.length; i++) {
+                     //o.py[i] += e.getY() - o.co.y;
 
-				if (!elastiqueTire) {
-					elastiqueTire = true;
-					try {
-						jouerSon("slingshot.wav");
-					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-						e1.printStackTrace();
-					}
-				}
+                     // o.py2[i] += e.getY() - o.co.y;
+                     }*/
+                    o2.getCo().setY(e.getY());
+                    repaint();
+                }
 
-				if (e.getX() >= o.coInit.x - rayonLancer && e.getX() < o.coInit.x + rayonLancer && !o.lance) {
-					for (int i = 0; i < o.px.length; i++) {
-						o.px[i] += e.getX() - o.co.x;
+                courbeSuivie.updateCoordOiseau();
+                courbeSuivie.updateCoordMilieu(o2.getCoInit().y - (o2.getCo().y - o2.getCoInit().y) * 10);
+                if ((o2.getCoInit().y - o2.getCo().y) > 0) {
+                    courbeSuivie.updateCoordFin(
+                            new Coordonne(o2.getCoInit().x - (o2.getCo().x - o2.getCoInit().x) * 15, 475 + (o2.getCoInit().y - o2.getCo().y) * 5));
+                } else {
+                    courbeSuivie.updateCoordFin(new Coordonne(o2.getCoInit().x - (o2.getCo().x - o2.getCoInit().x) * 15, 475 - (o2.getCoInit().y - o2.getCo().y) * 5));
+                }
+            }
+        });
 
-						o.px2[i] += e.getX() - o.co.x;
-					}
-					o.co.x = e.getX();
-					repaint();
-				}
-				if (e.getY() >= o.coInit.y - rayonLancer && e.getY() < o.coInit.y + rayonLancer && !o.lance) {
-					for (int i = 0; i < o.px.length; i++) {
-						o.py[i] += e.getY() - o.co.y;
+        nouveauLancer();
+    }
 
-						o.py2[i] += e.getY() - o.co.y;
-					}
-					o.co.y = e.getY();
-					repaint();
-				}
+    /**
+     * IHM creant le fond et les ennemis
+     *
+     * @param g le graphique du jeu
+     */
+    public void paintComponent(Graphics g) {
+        ModeleOiseau o2 = (ModeleOiseau) o.getModel();
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
 
-				courbeSuivie.updateCoordOiseau();
-				courbeSuivie.updateCoordMilieu(o.coInit.y - (o.co.y - o.coInit.y) * 10);
-				if ((o.coInit.y - o.co.y) > 0)
-					courbeSuivie.updateCoordFin(
-							new Coordonne(o.coInit.x - (o.co.x - o.coInit.x) * 15, 475 + (o.coInit.y - o.co.y) * 5));
-				else
-					courbeSuivie.updateCoordFin(new Coordonne(o.coInit.x - (o.co.x - o.coInit.x) * 15, 475 - (o.coInit.y - o.co.y) * 5));
-			}
-		});
+        g.drawImage(new ImageIcon(Main.class.getResource("fond2.png")).getImage(), 0, 0, null);
+        g.drawImage(new ImageIcon(Main.class.getResource("slingshot.png")).getImage(), o2.getCoInit().x + 10, 410, null);
 
-	}
+        g2d.setColor(Color.red);
+        Iterator<Coordonne> iterator = trace.iterator();
+        while(iterator.hasNext()){
+            Coordonne c = iterator.next();
+            g.fillOval(c.x, c.y, o2.getTaille() / 5, o2.getTaille() / 5);
+        }
+        
 
-	/**
-	 * IHM creant le fond et les ennemis
-	 * 
-	 * @param g
-	 *            le graphique du jeu
-	 */
-	public void paintComponent(Graphics g) {
+        AffineTransform old = g2d.getTransform();
+        AffineTransform trans = new AffineTransform();
+        trans.rotate(Math.toRadians(o2.getDirectionY() * 25), o2.getCo().x + o2.getTaille() / 2, o2.getCo().y + o2.getTaille() / 2);
 
-		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
+        g2d.transform(trans);
 
-		g.drawImage(new ImageIcon(Main.class.getResource("fond2.png")).getImage(), 0, 0, null);
-		g.drawImage(new ImageIcon(Main.class.getResource("slingshot.png")).getImage(), o.coInit.x + 10, 410, null);
+        // Ce qui pivotera
 
-		g2d.setColor(Color.red);
-		for (Coordonne c : trace) {
-			g.fillOval(c.x, c.y, o.taille / 5, o.taille / 5);
-		}
+        o.paintComponent(this, g2d);
 
-		AffineTransform old = g2d.getTransform();
-		AffineTransform trans = new AffineTransform();
-		trans.rotate(Math.toRadians(o.directionY * 25), o.co.x + o.taille / 2, o.co.y + o.taille / 2);
+        g2d.setTransform(old);
 
-		g2d.transform(trans);
+        // Ce qui ne pivotera pas
 
-		// Ce qui pivotera
+        for (Vue e : getObjetsScene()) {
+            if(e instanceof VueOiseau == false){
+                ((VueEnnemie)e).paintComponent(g);
+            }
+        }
 
-		o.paintComponent(this, g2d);
+        g2d.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), o2.getCoInit().x + 10, 410, null);
+        g2d.drawImage(new ImageIcon(Main.class.getResource("caisse.png")).getImage(), 0, 480, null);
+    }
 
-		g2d.setTransform(old);
+    /**
+     * gere la collision entre 2 entites
+     *
+     * @param e1 une entite
+     * @param e2 une entite
+     * @return si il touche ou pas
+     */
+    public boolean collision(Vue v1, Vue v2) {
+        if (v1 == null) {
+            System.out.println("V1NUL");
+            System.exit(1);
+        } else if (v2 == null) {
+            System.out.println("V2NUL");
+            System.exit(1);
+        }
+        Model e1 = v1.getModel();
+        Model e2 = v2.getModel();
 
-		// Ce qui ne pivotera pas
+        Coordonne co1 = e1.getCo();
+        Coordonne co2 = e2.getCo();
 
-		for (Ennemi e : getEnnemis()) {
-			e.paintComponent(g2d);
-		}
 
-		g2d.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), o.coInit.x + 10, 410, null);
-		g2d.drawImage(new ImageIcon(Main.class.getResource("caisse.png")).getImage(), 0, 480, null);
-	}
+        return co1.x < co2.getX() + e2.getTaille()
+                && co1.getX() + e1.getTaille() > co2.x
+                && co1.getY() < co2.getY() + e2.getTaille()
+                && co1.getY() + e1.getTaille() > co2.getY();
+    }
 
-	/**
-	 * gere la collision entre 2 entites
-	 * 
-	 * @param e1
-	 *            une entite
-	 * @param e2
-	 *            une entite
-	 * @return si il touche ou pas
-	 */
+    /**
+     * timer du jeu, retire les ennemis si touche et le lance de l'oiseau
+     *
+     */
+    public void lancerOiseau() {
+        final ModeleOiseau o2 = (ModeleOiseau) o.getModel();
+        elastiqueTire = true;
+        ((ModeleOiseau) o.getModel()).setLance(true);
 
-	public boolean collision(Entite e1, Entite e2) {
-		return e1.co.x < e2.co.x + e2.taille && e1.co.x + e1.taille > e2.co.x && e1.co.y < e2.co.y + e2.taille
-				&& e1.co.y + e1.taille > e2.co.y;
-	}
+        Timer timer = new Timer();
 
-	/**
-	 * timer du jeu, retire les ennemis si touche et le lance de l'oiseau
-	 * 
-	 */
-	public void lancerOiseau() {
+        TimerTask task = new TimerTask() {
+            // animation du jeu
+            public void run() {
+                Coordonne coordSuivante = courbeSuivie.coordSuivante(t);
+                Coordonne co = o2.getCo();
+                co.setX(coordSuivante.getX());
+                co.setY(coordSuivante.getY());
 
-		elastiqueTire = true;
-		o.lance = true;
+                for (Vue e : getObjetsScene()) {
+                    if (e instanceof VueOiseau == false) {
+                        if (collision(o, e)) {
+                            this.cancel();
+                            ennemiMort = (VueEnnemie) e;
+                        }
+                    }
+                }
 
-		Timer timer = new Timer();
+                if (ennemiMort != null) {
+                    getEnnemis().remove(ennemiMort);
+                    ennemiMort = null;
+                    nouveauLancer();
+                }
 
-		TimerTask task = new TimerTask() {
+                if (o2.getCo().y > 475) {
+                    this.cancel();
+                    nouveauLancer();
+                }
 
-			// animation du jeu
-			public void run() {
+                if (o2.getCo().x > 800 || o2.getCo().x < -o2.getTaille() || o2.getCo().y > 700) {
+                    this.cancel();
+                    nouveauLancer();
+                }
 
-				o.setCoord(courbeSuivie.coordSuivante(t));
+                t += 0.005;
+                if (t * 2 >= 7) {
+                    this.cancel();
+                    nouveauLancer();
+                }
 
-				for (Ennemi e : getEnnemis()) {
+                if ((o2.getCo().x % 10) <= 3) {
+                    trace.add(new Coordonne(o2.getCo().x + o2.getTaille() / 2, o2.getCo().y + o2.getTaille() / 2));
+                }
 
-					if (collision(o, e)) {
-						this.cancel();
-						ennemiMort = e;
-					}
+                o2.setDirectionY(courbeSuivie.directionBec(t));
 
-				}
+                repaint();
+            }
+        };
 
-				if (ennemiMort != null) {
-					getEnnemis().remove(ennemiMort);
-					ennemiMort = null;
-					nouveauLancer();
-				}
-                                
-                                if(o.co.y > 475){
-                                    this.cancel();
-                                    nouveauLancer();
-                                }
+        timer.scheduleAtFixedRate(task, 0, 10);
 
-				if (o.co.x > 800 || o.co.x < -o.taille || o.co.y > 700) {
-					this.cancel();
-					nouveauLancer();
-				}
+    }
 
-				t += 0.005;
-				if (t * 2 >= 7) {
-					this.cancel();
-					nouveauLancer();
-				}
-                                
-				if ((o.co.x % 10) <= 3 )
-                                    
-					trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
+    /**
+     * lit le son du jeu
+     *
+     */
+    public void jouerSon(String nomFichier)
+            throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        URL url = Main.class.getResource(nomFichier);
+        final Clip clip = AudioSystem.getClip();
+        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(url)) {
+            clip.open(audioIn);
+        }
+        clip.start();
+    }
 
-				o.directionY = courbeSuivie.directionBec(t);
+    /**
+     *
+     * Reinisialise l'oiseau et effectue un nouveau lancer
+     *
+     */
+    public void nouveauLancer() {
+        t = 0.0;
+        ModeleEnnemie modeleEnnemie = new ModeleEnnemie(50);
+        ControllerEnnemie controllerEnnemie = new ControllerEnnemie();
+        VueEnnemie vueEnnemie = new VueEnnemie(modeleEnnemie, controllerEnnemie);
+        modeleEnnemie.addObserver(vueEnnemie);
 
-				repaint();
-			}
 
-		};
+        elastiqueTire = false;
+        trace = new ArrayList<>();
 
-		timer.scheduleAtFixedRate(task, 0, 10);
 
-	}
+        // creation de l'oiseau
+        // model
+        ModeleOiseau modeleOiseau = new ModeleOiseau();
 
-	/**
-	 * lit le son du jeu
-	 * 
-	 */
-	public void jouerSon(String nomFichier)
-			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		URL url = Main.class.getResource(nomFichier);
-		final Clip clip = AudioSystem.getClip();
-		try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(url)) {
-			clip.open(audioIn);
-		}
-		clip.start();
-	}
+        // controller
+        ControllerOiseau oiseauControleur = new ControllerOiseau(modeleOiseau);
 
-	/**
-	 * 
-	 * Reinisialise l'oiseau et effectue un nouveau lancer
-	 * 
-	 */
-	public void nouveauLancer() {
-		t = 0.0;
-		o = new Oiseau(o.taille);
-		elastiqueTire = false;
-		trace = new ArrayList<>();
-	}
+        // vue
+        VueOiseau vueOiseau = new VueOiseau(modeleOiseau, oiseauControleur);
+        o = vueOiseau;
+        // enregistre le notifieur
+        modeleOiseau.addObserver(vueOiseau);
 
-	public ArrayList<Ennemi> getEnnemis() {
-		return ennemis;
-	}
+    }
 
-	public void setEnnemis(ArrayList<Ennemi> ennemis) {
-		this.ennemis = ennemis;
-	}
+    public ArrayList<Ennemi> getEnnemis() {
+        return ennemis;
+    }
+
+    public void addEnnemi(Vue vue) {
+        objetsVue.add(vue);
+    }
+
+    public void setEnnemis(ArrayList<Ennemi> ennemis) {
+        this.ennemis = ennemis;
+    }
+
+    public ArrayList<Vue> getObjetsScene() {
+        return objetsVue;
+    }
 }

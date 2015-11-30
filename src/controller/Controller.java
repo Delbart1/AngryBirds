@@ -2,22 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package controller;
 
-import Vue.VueEnnemie;
-import Vue.VueJeu;
-import Vue.VueOiseau;
 import java.util.Observable;
 
 /**
  *
  * @author youdelice
  */
-public class ModeleJeu extends Observable {
+public abstract class Controller {
     
-    public ModeleJeu(){
-    
-    
-    
-    }
 }
