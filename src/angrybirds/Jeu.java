@@ -47,7 +47,7 @@ public class Jeu extends JPanel {
     boolean elastiqueTire = false;
     double t = 0.0;
     VueOiseau o = null;
-    private ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
+   
     private ArrayList<Vue> objetsVue = new ArrayList<>();
     VueEnnemie ennemiMort = null;
     ArrayList<Coordonne> trace = new ArrayList<>();
