@@ -17,7 +17,7 @@ import model.ModeleEnnemie;
  *
  * @author youdelice
  */
-public class VueEnnemie extends Vue implements Observer {
+public class VueEnnemie extends Vue {
 
     Random r = new Random();
     int typeEnnemi = 1;

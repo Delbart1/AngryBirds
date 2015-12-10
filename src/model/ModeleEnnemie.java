@@ -19,9 +19,11 @@ public class ModeleEnnemie extends Model {
     private final int typeEnnemi;
 
     public ModeleEnnemie(int i) {
+       
         this.taille = i;
 
         co = new Coordonne(r.nextInt(80) * 5 + 350, r.nextInt(475));
+        
         // position y pour le sol 525 - taille
         this.taille = taille;
         super.couleurPrincipale = new Color(97, 223, 69);

@@ -25,7 +25,7 @@ public class VueOiseau extends Vue {
     int[] px2 = new int[3];
     int[] py2 = new int[3];
     Coordonne coInit = null;
-    int taille = 0;
+    int taille;
     Coordonne co = null;
     Color couleurPrincipale = null;
     Color couleurSecondaire = null;
@@ -42,30 +42,7 @@ public class VueOiseau extends Vue {
         couleurSecondaire = model.getCouleurSecondaire();
 
 
-        Point[] p = new Point[3];
-        // Point du bas � gauche
-        p[0] = new Point(co.x + taille / 2 - taille / 8 + taille / 5, co.y + taille / 2 + taille / 8);
-        // Point du haut
-        p[1] = new Point(co.x + taille / 2 + taille / 5, co.y + taille / 4 + taille / 6);
-        // Point de droite
-        p[2] = new Point(co.x + taille / 2 + taille / 5 + taille / 3, co.y + taille / 2 + taille / 7);
-        for (int i = 0; i < 3; i++) {
-            px[i] = p[i].x;
-            py[i] = p[i].y;
-        }
-
-        Point[] p2 = new Point[3];
-        // Point du haut � gauche
-        p2[0] = new Point(co.x + taille / 2 - taille / 8 + taille / 5, co.y + taille / 2 + taille / 8);
-        // Point du bas
-        p2[1] = new Point(co.x + taille / 2 + taille / 5, co.y + taille / 2 + taille / 8 + taille / 5);
-        // Point de droite
-        p2[2] = new Point(co.x + taille / 2 + taille / 5 + taille / 5, co.y + taille / 2 + taille / 7);
-        for (int i = 0; i < 3; i++) {
-            px2[i] = p2[i].x;
-            py2[i] = p2[i].y;
-
-        }
+        
     }
 
     public void paintComponent(Jeu j, Graphics g) {
@@ -96,6 +73,30 @@ public class VueOiseau extends Vue {
                 taille / 10);
 
         // Bec
+        Point[] p = new Point[3];
+        // Point du bas � gauche
+        p[0] = new Point(co.x + taille / 2 - taille / 8 + taille / 5, co.y + taille / 2 + taille / 8);
+        // Point du haut
+        p[1] = new Point(co.x + taille / 2 + taille / 5, co.y + taille / 4 + taille / 6);
+        // Point de droite
+        p[2] = new Point(co.x + taille / 2 + taille / 5 + taille / 3, co.y + taille / 2 + taille / 7);
+        for (int i = 0; i < 3; i++) {
+            px[i] = p[i].x;
+            py[i] = p[i].y;
+        }
+
+        Point[] p2 = new Point[3];
+        // Point du haut � gauche
+        p2[0] = new Point(co.x + taille / 2 - taille / 8 + taille / 5, co.y + taille / 2 + taille / 8);
+        // Point du bas
+        p2[1] = new Point(co.x + taille / 2 + taille / 5, co.y + taille / 2 + taille / 8 + taille / 5);
+        // Point de droite
+        p2[2] = new Point(co.x + taille / 2 + taille / 5 + taille / 5, co.y + taille / 2 + taille / 7);
+        for (int i = 0; i < 3; i++) {
+            px2[i] = p2[i].x;
+            py2[i] = p2[i].y;
+        }
+        
         g.setColor(new Color(255, 204, 0));
         g.fillPolygon(px, py, 3);
         g.setColor(new Color(255, 172, 0));

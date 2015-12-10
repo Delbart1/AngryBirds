@@ -49,7 +49,7 @@ public class Jeu extends JPanel {
     VueOiseau o = null;
    
     private ArrayList<Vue> objetsVue = new ArrayList<>();
-    VueEnnemie ennemiMort = null;
+    ArrayList<VueEnnemie> ennemimort= null;
     ArrayList<Coordonne> trace = new ArrayList<>();
     Courbe courbeSuivie = new Courbe(this);
     int rayonLancer = 75;
@@ -212,9 +212,9 @@ public class Jeu extends JPanel {
         Coordonne co1 = e1.getCo();
         Coordonne co2 = e2.getCo();
 
-
-        return co1.x < co2.getX() + e2.getTaille()
-                && co1.getX() + e1.getTaille() > co2.x
+        
+        return co1.getX() < co2.getX() + e2.getTaille()
+                && co1.getX() + e1.getTaille() > co2.getX()
                 && co1.getY() < co2.getY() + e2.getTaille()
                 && co1.getY() + e1.getTaille() > co2.getY();
     }
@@ -238,18 +238,26 @@ public class Jeu extends JPanel {
                 co.setX(coordSuivante.getX());
                 co.setY(coordSuivante.getY());
 
-                for (Vue e : getObjetsScene()) {
+                for (Vue e : objetsVue) {
                     if (e instanceof VueOiseau == false) {
                         if (collision(o, e)) {
-                            this.cancel();
-                            ennemiMort = (VueEnnemie) e;
+                            System.out.println(o.model.getCo());
+                            System.out.println(e.model.getCo());
+                            System.out.println("test");
+                           
+                            this.cancel(); 
+                            nouveauLancer();
+                            if(ennemimort != null){
+                                ennemimort = new ArrayList<>();
+                                ennemimort.add((VueEnnemie) e);
+                            }
                         }
                     }
                 }
 
-                if (ennemiMort != null) {
-                    getEnnemis().remove(ennemiMort);
-                    ennemiMort = null;
+                if (ennemimort != null) {
+                    getEnnemis().remove(ennemimort);
+                    ennemimort = null;
                     nouveauLancer();
                 }
 
@@ -329,16 +337,16 @@ public class Jeu extends JPanel {
 
     }
 
-    public ArrayList<Ennemi> getEnnemis() {
-        return ennemis;
+    public ArrayList<Vue> getEnnemis() {
+        return objetsVue;
     }
 
     public void addEnnemi(Vue vue) {
         objetsVue.add(vue);
     }
 
-    public void setEnnemis(ArrayList<Ennemi> ennemis) {
-        this.ennemis = ennemis;
+    public void setEnnemis(ArrayList<Vue> ennemis) {
+        this.objetsVue = ennemis;
     }
 
     public ArrayList<Vue> getObjetsScene() {
