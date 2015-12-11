@@ -12,10 +12,10 @@ import java.awt.Color;
 
 public abstract class Entite {
 
-	Coordonne co;
-	Color couleurPrincipale = Color.RED;
-	Color couleurSecondaire;
-	int taille = 10;
+	public Coordonne co;
+	public Color couleurPrincipale = Color.RED;
+	public Color couleurSecondaire;
+	public int taille = 10;
 
 	public void bouger(int x, int y) {
 		this.co.x += x;

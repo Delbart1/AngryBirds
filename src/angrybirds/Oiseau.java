@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.Random;
 
+import IHM.Jeu;
+
 /**
  * l'entite oiseau
  *
@@ -12,16 +14,16 @@ import java.util.Random;
  */
 public class Oiseau extends Entite {
 
-	boolean lance = false;
-	double directionY = 0.0;
-	int[] px = new int[3];
-	int[] py = new int[3];
-	int[] px2 = new int[3];
-	int[] py2 = new int[3];
+	public boolean lance = false;
+	public double directionY = 0.0;
+	public int[] px = new int[3];
+	public int[] py = new int[3];
+	public int[] px2 = new int[3];
+	public int[] py2 = new int[3];
 
 	Random r = new Random();
 
-	Coordonne coInit;
+	public Coordonne coInit;
 
 	/**
 	 * constructeur de loiseau avec une taille

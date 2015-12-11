@@ -17,7 +17,7 @@ public class Ennemi extends Entite {
 	Random r = new Random();
 	int typeEnnemi = 2;
 	// 1 = cochon
-	// 2 = souris
+	// 2 = cochon rectangle
 
 	/**
 	 * 1er construteur de l'ennemi

@@ -15,10 +15,10 @@ public class Courbe {
 
 	int index = 0;
 
-	private Jeu jeu;
+	private Modele m;
 
-	public Courbe(Jeu jeu) {
-		this.jeu = jeu;
+	public Courbe(Modele m) {
+		this.m = m;
 	}
 
 	/**
@@ -55,21 +55,6 @@ public class Courbe {
 				+ Math.pow(t, 2) * pointsBezier[2].y);
 
 		return new Coordonne(x, y);
-	}
-
-	public void updateCoordOiseau() {
-		pointsBezier[0] = new Coordonne(jeu.o.co.x, jeu.o.co.y);
-	}
-
-	public void updateCoordMilieu(int y) {
-		pointsBezier[1].setY(y);
-	}
-
-	public void updateCoordFin(Coordonne co) {
-		if (co.y < 475)
-			co.y = 475;
-		pointsBezier[2] = co;
-		pointsBezier[1].setX(pointsBezier[0].x + (co.x - pointsBezier[0].x) / 2);
 	}
 
 }
