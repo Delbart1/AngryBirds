@@ -10,4 +10,5 @@ package controller;
  */
 public class ControllerEnnemie extends Controller{
     
+    
 }

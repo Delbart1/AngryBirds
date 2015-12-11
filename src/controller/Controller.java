@@ -5,11 +5,12 @@
 package controller;
 
 import java.util.Observable;
+import javax.swing.JPanel;
 
 /**
  *
  * @author youdelice
  */
-public abstract class Controller {
+public abstract class Controller extends JPanel{
     
 }

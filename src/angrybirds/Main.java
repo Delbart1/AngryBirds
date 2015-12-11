@@ -31,7 +31,7 @@ public class Main {
 
 	private static int nbEnnemis = 5;
 	protected static Jeu j;
-
+        
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
 		j = new Jeu(nbEnnemis);
@@ -40,7 +40,7 @@ public class Main {
 		try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(url)) {
 			clip.open(audioIn);
 		}
-
+                
 		final JFrame f = new JFrame("Angry Birds");
 		f.setIconImage(new ImageIcon(Main.class.getResource("favicon.png")).getImage());
 		f.setPreferredSize(new Dimension(800, 600));

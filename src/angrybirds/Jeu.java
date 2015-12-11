@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -51,7 +52,7 @@ public class Jeu extends JPanel {
     private ArrayList<Vue> objetsVue = new ArrayList<>();
     ArrayList<VueEnnemie> ennemimort= null;
     ArrayList<Coordonne> trace = new ArrayList<>();
-    Courbe courbeSuivie = new Courbe(this);
+    public Courbe courbeSuivie = new Courbe(this);
     int rayonLancer = 75;
 
     /**
@@ -67,6 +68,8 @@ public class Jeu extends JPanel {
             ControllerEnnemie controllerEnnemie = new ControllerEnnemie();
             VueEnnemie vueEnnemie = new VueEnnemie(modeleEnnemie, controllerEnnemie);
             modeleEnnemie.addObserver(vueEnnemie);
+            
+           
 
             for (Vue e : objetsVue) {
                 if (collision(e, ennemitmp)) {
@@ -151,7 +154,7 @@ public class Jeu extends JPanel {
      *
      * @param g le graphique du jeu
      */
-    public void paintComponent(Graphics g) {
+     public void paintComponent(Graphics g) {
         ModeleOiseau o2 = (ModeleOiseau) o.getModel();
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -180,7 +183,7 @@ public class Jeu extends JPanel {
         g2d.setTransform(old);
 
         // Ce qui ne pivotera pas
-
+        
         for (Vue e : getObjetsScene()) {
             if(e instanceof VueOiseau == false){
                 ((VueEnnemie)e).paintComponent(g);
@@ -190,6 +193,7 @@ public class Jeu extends JPanel {
         g2d.drawImage(new ImageIcon(Main.class.getResource("slingshot2.png")).getImage(), o2.getCoInit().x + 10, 410, null);
         g2d.drawImage(new ImageIcon(Main.class.getResource("caisse.png")).getImage(), 0, 480, null);
     }
+    
 
     /**
      * gere la collision entre 2 entites
@@ -211,7 +215,8 @@ public class Jeu extends JPanel {
 
         Coordonne co1 = e1.getCo();
         Coordonne co2 = e2.getCo();
-
+        System.out.println(co1);
+        System.out.println(co2);
         
         return co1.getX() < co2.getX() + e2.getTaille()
                 && co1.getX() + e1.getTaille() > co2.getX()
@@ -352,4 +357,10 @@ public class Jeu extends JPanel {
     public ArrayList<Vue> getObjetsScene() {
         return objetsVue;
     }
+
+    public Courbe getCourbeSuivie() {
+        return courbeSuivie;
+    }
+    
+    
 }
