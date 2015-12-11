@@ -2,8 +2,8 @@ package angrybirds;
 
 /**
  * 
- * Classe gï¿½rant la courbe lors de la progression de l'oiseau. La courbe est une
- * courbe de Bezier paramï¿½trï¿½e avec 4 points
+ * Classe gérant la courbe lors de la progression de l'oiseau. La courbe est une
+ * courbe de Bezier paramétrée avec 4 points
  * 
  * @author Thibaut
  *
@@ -15,19 +15,19 @@ public class Courbe {
 
 	int index = 0;
 
-	private Jeu jeu;
+	private Modele m;
 
-	public Courbe(Jeu jeu) {
-		this.jeu = jeu;
+	public Courbe(Modele m) {
+		this.m = m;
 	}
 
 	/**
 	 * 
-	 * Renvoie le facteur utilisï¿½ pour faire pivoter l'oiseau
+	 * Renvoie le facteur utilisé pour faire pivoter l'oiseau
 	 * 
 	 * @param t
 	 *            Temps
-	 * @return facteur de l'opï¿½ration de rotation
+	 * @return facteur de l'opération de rotation
 	 */
 
 	public double directionBec(double t) {
@@ -39,11 +39,11 @@ public class Courbe {
 
 	/**
 	 * 
-	 * Renvoie la prochaine coordonnï¿½e de l'oiseau en suivant la courbe
+	 * Renvoie la prochaine coordonnée de l'oiseau en suivant la courbe
 	 * 
 	 * @param t
 	 *            Temps
-	 * @return Nouvelle coordonnï¿½e
+	 * @return Nouvelle coordonnée
 	 */
 
 	public Coordonne coordSuivante(double t) {
@@ -55,21 +55,6 @@ public class Courbe {
 				+ Math.pow(t, 2) * pointsBezier[2].y);
 
 		return new Coordonne(x, y);
-	}
-
-	public void updateCoordOiseau() {
-		pointsBezier[0] = new Coordonne(jeu.o.getModel().getCo().x, jeu.o.getModel().getCo().y);
-	}
-
-	public void updateCoordMilieu(int y) {
-		pointsBezier[1].setY(y);
-	}
-
-	public void updateCoordFin(Coordonne co) {
-		if (co.y < 475)
-			co.y = 475;
-		pointsBezier[2] = co;
-		pointsBezier[1].setX(pointsBezier[0].x + (co.x - pointsBezier[0].x) / 2);
 	}
 
 }
