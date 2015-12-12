@@ -19,6 +19,8 @@ public class Ennemi extends Entite {
 	// 1 = cochon
 	// 2 = cochon rectangle
 
+	public TrajectoireEnnemi trajectoire;
+
 	/**
 	 * 1er construteur de l'ennemi
 	 * 
@@ -27,6 +29,7 @@ public class Ennemi extends Entite {
 	 */
 	public Ennemi(int taille) {
 		super.co = new Coordonne(r.nextInt(80) * 5 + 350, r.nextInt(475));
+		trajectoire = new TrajectoireEnnemi(this);
 		// position y pour le sol 525 - taille
 		this.taille = taille;
 		super.couleurPrincipale = new Color(97, 223, 69);
@@ -48,6 +51,10 @@ public class Ennemi extends Entite {
 		super.couleurPrincipale = new Color(97, 223, 69);
 		super.couleurSecondaire = new Color(190, 245, 116);
 		typeEnnemi = r.nextInt(2) + 1;
+	}
+
+	public void setCoord(Coordonne c) {
+		this.co = c;
 	}
 
 	public void paintComponent(Graphics g) {

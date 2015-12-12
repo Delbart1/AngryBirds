@@ -154,6 +154,7 @@ public class Jeu extends JPanel {
 
 		g2d.drawImage(new ImageIcon(MVC.class.getResource("slingshot2.png")).getImage(), m.o.coInit.x + 10, 410, null);
 		g2d.drawImage(new ImageIcon(MVC.class.getResource("caisse.png")).getImage(), 0, 480, null);
+		
 	}
 
 	/**

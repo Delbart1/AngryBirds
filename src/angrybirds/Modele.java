@@ -16,11 +16,16 @@ public class Modele extends Observable {
 	public ArrayList<Ennemi> ennemis;
 	public Ennemi ennemiMort;
 	public ArrayList<Coordonne> trace;
+	public int cptTrace = 0;
 	public Courbe courbeSuivie;
 	public int rayonLancer;
+	public int ySol = 525;
+
+	Timer timer = new Timer();
 
 	public Modele() {
 		initialiser();
+		demarrerEnnemis();
 	}
 
 	public void initialiser() {
@@ -31,7 +36,7 @@ public class Modele extends Observable {
 		ennemis = new ArrayList<Ennemi>();
 		ennemiMort = null;
 		trace = new ArrayList<>();
-		courbeSuivie = new Courbe(this);
+		courbeSuivie = new Courbe();
 		rayonLancer = 75;
 
 		for (int i = 0; i < nbEnnemis; i++) {
@@ -74,12 +79,27 @@ public class Modele extends Observable {
 		notifyObservers();
 	}
 
+	public void demarrerEnnemis() {
+		TimerTask task = new TimerTask() {
+
+			public void run() {
+				for (Ennemi e : ennemis) {
+					e.setCoord(e.trajectoire.coordSuivante(e.trajectoire.t));
+					e.trajectoire.t += 0.005;
+				}
+
+				setChanged();
+				notifyObservers();
+			}
+		};
+
+		timer.scheduleAtFixedRate(task, 0, 10);
+	}
+
 	public void lancerOiseau() {
 
 		elastiqueTire = true;
 		o.lance = true;
-
-		Timer timer = new Timer();
 
 		TimerTask task = new TimerTask() {
 
@@ -114,15 +134,20 @@ public class Modele extends Observable {
 					nouveauLancer();
 				}
 
-				if ((o.co.x % 20) == 0)
+				cptTrace++;
+				if (cptTrace == 5) {
 					trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
+					cptTrace = 0;
+				}
 
 				o.directionY = courbeSuivie.directionBec(t);
 
-				setChanged();
-				notifyObservers();
-			}
+				if (o.co.y >= ySol - o.taille) {
+					this.cancel();
+					nouveauLancer();
+				}
 
+			}
 		};
 
 		timer.scheduleAtFixedRate(task, 0, 10);

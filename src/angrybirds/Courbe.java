@@ -10,15 +10,12 @@ package angrybirds;
  */
 public class Courbe {
 
-	public Coordonne[] pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(400, 100),
-			new Coordonne(800, 400) };
+	public Coordonne[] pointsBezier;
 
 	int index = 0;
 
-	private Modele m;
-
-	public Courbe(Modele m) {
-		this.m = m;
+	public Courbe() {
+		pointsBezier = new Coordonne[] { new Coordonne(120, 400), new Coordonne(400, 100), new Coordonne(800, 400) };
 	}
 
 	/**
