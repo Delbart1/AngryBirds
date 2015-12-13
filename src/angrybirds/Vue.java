@@ -7,8 +7,8 @@ import java.util.Observer;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import IHM.Fenetre;
-import IHM.Jeu;
+import ihm.Fenetre;
+import ihm.Jeu;
 
 public class Vue implements Observer {
 

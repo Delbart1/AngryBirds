@@ -38,7 +38,7 @@ public class Ennemi extends Entite {
 	}
 
 	/**
-	 * 2eme construteur de l'ennemi demandant ces coor
+	 * 2eme construteur de l'ennemi demandant ces coordonne
 	 * 
 	 * @param co
 	 *            coor de l'ennemi

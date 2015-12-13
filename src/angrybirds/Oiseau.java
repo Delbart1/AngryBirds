@@ -5,12 +5,12 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.Random;
 
-import IHM.Jeu;
+import ihm.Jeu;
 
 /**
  * l'entite oiseau
  *
- * @author youdelice
+ * @author Thibaut
  */
 public class Oiseau extends Entite {
 
@@ -63,10 +63,9 @@ public class Oiseau extends Entite {
 	}
 
 	/**
-	 * fait bouger l'oiseau
+	 * Modifie les coordones de l'oiseau et de son bec
 	 *
-	 * @param x
-	 * @param y
+	 * @param c		Nouvelles coordonnes de l'oiseau
 	 */
 	public void setCoord(Coordonne c) {
 		this.co = c;
@@ -97,11 +96,10 @@ public class Oiseau extends Entite {
 	}
 
 	/**
-	 * IHM de l'oiseau
+	 * Affichage de l'oiseau
 	 *
-	 * @param j
-	 * @param g
-	 *            graphic du jeu
+	 * @param j		Panel ou l'oiseau va apparaitre
+	 * @param g		Graphics du jeu
 	 */
 	public void paintComponent(Jeu j, Graphics g) {
 

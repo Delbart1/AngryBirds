@@ -5,8 +5,10 @@ import java.util.Observable;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
 /**
  * Modele du MVC
+ * 
  * @author Thibaut
  *
  */
@@ -78,7 +80,7 @@ public class Modele extends Observable {
 
 	/**
 	 * 
-	 * Reinisialise l'oiseau et effectue un nouveau lancer
+	 * Reinisialise l'oiseau et le prepare a un nouveau lancer
 	 * 
 	 */
 	public void nouveauLancer() {
@@ -91,7 +93,7 @@ public class Modele extends Observable {
 	}
 
 	/**
-	 * Déplacement des ennemis.
+	 * Lance le deplacement des ennemis.
 	 */
 	public void demarrerEnnemis() {
 		TimerTask task = new TimerTask() {
@@ -111,7 +113,8 @@ public class Modele extends Observable {
 	}
 
 	/**
-	 * Lance l'oiseau et apporte les modifications.
+	 * Lance l'oiseau et le fait se deplacer, en verifiant ce qu'il rencontre
+	 * sur sa route
 	 */
 	public void lancerOiseau() {
 
@@ -170,8 +173,10 @@ public class Modele extends Observable {
 		timer.scheduleAtFixedRate(task, 0, 10);
 
 	}
+
 	/**
-	 * met à jour les coordonnées de l'oiseau. &&&
+	 * met à jour les coordonnées du premier point de la courbe de Bezier (celui
+	 * a la position initiale de l'oiseau)
 	 */
 	public void updateCoordOiseau() {
 		courbeSuivie.pointsBezier[0] = new Coordonne(o.co.x, o.co.y);
@@ -180,18 +185,23 @@ public class Modele extends Observable {
 	}
 
 	/**
-	 * modifie le point milieu de la courbe de bezier. &&&
+	 * met à jour les coordonnées du deuxieme point de la courbe de Bezier. La
+	 * valeur x est au centre du 1e et 3e points.
+	 * 
 	 * @param y
+	 *            Hauteur du point definissant comment l'oiseau va monter
 	 */
 	public void updateCoordMilieu(int y) {
 		courbeSuivie.pointsBezier[1].setY(y);
 		setChanged();
 		notifyObservers();
 	}
-    
+
 	/**
-	 * modifie le dernier point de la courbe de bezier. &&&
+	 * met à jour les coordonnées du troisieme point de la courbe de Bezier.
+	 * 
 	 * @param co
+	 *            Coordonnes du point ou l'oiseau se dirige
 	 */
 	public void updateCoordFin(Coordonne co) {
 		if (co.y < 475)
