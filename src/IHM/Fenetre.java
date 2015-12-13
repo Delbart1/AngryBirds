@@ -1,4 +1,4 @@
-package IHM;
+package ihm;
 
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;

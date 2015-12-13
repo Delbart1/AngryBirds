@@ -1,4 +1,4 @@
-package IHM;
+package ihm;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -42,7 +42,8 @@ public class Jeu extends JPanel {
 	 * 
 	 * Initialise le jeu et ajoute les Listeners
 	 * 
-	 * @param nbEnnemis
+	 * @param m		Modele du jeu
+	 * @param c 	Controller du jeu
 	 */
 
 	public Jeu(Modele m, Controller c) {
@@ -158,13 +159,9 @@ public class Jeu extends JPanel {
 	}
 
 	/**
-	 * timer du jeu, retire les ennemis si touche et le lance de l'oiseau
+	 * Charge un fichier audio et le joue
 	 * 
-	 */
-
-	/**
-	 * lit le son du jeu
-	 * 
+	 * @param nomFichier	Nom du fichier audio (exemple: son.wav)
 	 */
 	public void jouerSon(String nomFichier)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
