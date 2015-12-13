@@ -5,7 +5,11 @@ import java.util.Observable;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
+/**
+ * Modele du MVC
+ * @author Thibaut
+ *
+ */
 public class Modele extends Observable {
 
 	public Random r = new Random();
@@ -28,6 +32,10 @@ public class Modele extends Observable {
 		demarrerEnnemis();
 	}
 
+	/**
+	 * initialise le jeu.
+	 * 
+	 */
 	public void initialiser() {
 		nbEnnemis = 5;
 		elastiqueTire = false;
@@ -82,6 +90,9 @@ public class Modele extends Observable {
 		notifyObservers();
 	}
 
+	/**
+	 * Déplacement des ennemis.
+	 */
 	public void demarrerEnnemis() {
 		TimerTask task = new TimerTask() {
 
@@ -99,6 +110,9 @@ public class Modele extends Observable {
 		timer.scheduleAtFixedRate(task, 0, 10);
 	}
 
+	/**
+	 * Lance l'oiseau et apporte les modifications.
+	 */
 	public void lancerOiseau() {
 
 		elastiqueTire = true;
@@ -156,19 +170,29 @@ public class Modele extends Observable {
 		timer.scheduleAtFixedRate(task, 0, 10);
 
 	}
-
+	/**
+	 * met à jour les coordonnées de l'oiseau. &&&
+	 */
 	public void updateCoordOiseau() {
 		courbeSuivie.pointsBezier[0] = new Coordonne(o.co.x, o.co.y);
 		setChanged();
 		notifyObservers();
 	}
 
+	/**
+	 * modifie le point milieu de la courbe de bezier. &&&
+	 * @param y
+	 */
 	public void updateCoordMilieu(int y) {
 		courbeSuivie.pointsBezier[1].setY(y);
 		setChanged();
 		notifyObservers();
 	}
-
+    
+	/**
+	 * modifie le dernier point de la courbe de bezier. &&&
+	 * @param co
+	 */
 	public void updateCoordFin(Coordonne co) {
 		if (co.y < 475)
 			co.y = 475;

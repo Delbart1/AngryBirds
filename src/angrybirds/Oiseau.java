@@ -26,7 +26,7 @@ public class Oiseau extends Entite {
 	public Coordonne coInit;
 
 	/**
-	 * constructeur de loiseau avec une taille
+	 * constructeur de l'oiseau avec une taille
 	 *
 	 * @param taille
 	 */
@@ -97,7 +97,7 @@ public class Oiseau extends Entite {
 	}
 
 	/**
-	 * IHM de de l'oiseau
+	 * IHM de l'oiseau
 	 *
 	 * @param j
 	 * @param g

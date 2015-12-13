@@ -1,7 +1,9 @@
 package angrybirds;
 
 public class Controller {
-
+/**
+ * Controller du MVC.
+ */
 	private Modele m;
 
 	public Controller(Modele m) {
