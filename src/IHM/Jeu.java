@@ -54,7 +54,7 @@ public class Jeu extends JPanel {
 	}
 
 	public void ajouterListeners() {
-		this.addMouseListener(new MouseAdapter() {
+		addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
@@ -70,13 +70,13 @@ public class Jeu extends JPanel {
 			}
 		});
 
-		this.addMouseMotionListener(new MouseMotionAdapter() {
+		addMouseMotionListener(new MouseMotionAdapter() {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
 
 				if (!m.elastiqueTire) {
-					m.elastiqueTire = true;
+					c.tirerElastique();
 					try {
 						jouerSon("slingshot.wav");
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {

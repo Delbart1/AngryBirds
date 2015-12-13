@@ -25,11 +25,9 @@ import angrybirds.MVC;
 @SuppressWarnings("serial")
 public class Fenetre extends JFrame {
 
-
 	Jeu j;
 
 	public Fenetre(Jeu j) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-
 
 		this.j = j;
 
@@ -39,16 +37,12 @@ public class Fenetre extends JFrame {
 			clip.open(audioIn);
 		}
 
-                
-
-
 		setTitle("Angry Birds");
 		setIconImage(new ImageIcon(MVC.class.getResource("favicon.png")).getImage());
 		setPreferredSize(new Dimension(800, 600));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
-
 
 		setContentPane(j);
 

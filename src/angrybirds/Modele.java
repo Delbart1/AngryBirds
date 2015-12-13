@@ -48,6 +48,9 @@ public class Modele extends Observable {
 			}
 			getEnnemis().add(ennemitmp);
 		}
+
+		setChanged();
+		notifyObservers();
 	}
 
 	/**

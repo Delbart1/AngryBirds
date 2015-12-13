@@ -28,4 +28,8 @@ public class Controller {
 		m.nouveauJeu();
 	}
 
+	public void tirerElastique() {
+		m.elastiqueTire = true;
+	}
+
 }
