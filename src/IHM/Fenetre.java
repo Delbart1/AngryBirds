@@ -20,7 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import angrybirds.Controller;
-import angrybirds.MVC;
+import exec.MVC;
 
 @SuppressWarnings("serial")
 public class Fenetre extends JFrame {

@@ -9,6 +9,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -21,8 +22,9 @@ import javax.swing.JPanel;
 import angrybirds.Controller;
 import angrybirds.Coordonne;
 import angrybirds.Ennemi;
-import angrybirds.MVC;
 import angrybirds.Modele;
+import angrybirds.Oiseau;
+import exec.MVC;
 
 /**
  * 
@@ -42,8 +44,10 @@ public class Jeu extends JPanel {
 	 * 
 	 * Initialise le jeu et ajoute les Listeners
 	 * 
-	 * @param m		Modele du jeu
-	 * @param c 	Controller du jeu
+	 * @param m
+	 *            Modele du jeu
+	 * @param c
+	 *            Controller du jeu
 	 */
 
 	public Jeu(Modele m, Controller c) {
@@ -117,6 +121,145 @@ public class Jeu extends JPanel {
 	}
 
 	/**
+	 * 
+	 * Dessine l'oiseau specifie en parametre
+	 * 
+	 * @param o
+	 *            Oiseau concerne
+	 * @param g
+	 *            Graphics de l'ihm
+	 */
+
+	public void paintOiseau(Oiseau o, Graphics g) {
+		// Cell-shading
+		g.setColor(Color.BLACK);
+		g.fillOval(o.co.x - 3, o.co.y - 3, o.taille + 6, o.taille + 6);
+
+		// Corps
+		g.setColor(o.couleurPrincipale);
+		g.fillOval(o.co.x, o.co.y, o.taille, o.taille);
+
+		// Corps inferieur
+		g.setColor(o.couleurSecondaire);
+		g.fillOval(o.co.x + 5, o.co.y + o.taille / 2, o.taille - 10, o.taille / 2);
+
+		// Yeux
+		g.setColor(Color.WHITE);
+		g.fillOval(o.co.x + o.taille / 2, o.co.y + o.taille / 4, o.taille / 5, o.taille / 5);
+		g.fillOval(o.co.x + o.taille / 2 + o.taille / 5, o.co.y + o.taille / 4, o.taille / 5, o.taille / 5);
+
+		// Pupilles
+		g.setColor(Color.BLACK);
+		g.fillOval(o.co.x + o.taille / 2 + o.taille / 15, o.co.y + o.taille / 4 + o.taille / 15, o.taille / 10,
+				o.taille / 10);
+		g.fillOval(o.co.x + o.taille / 2 + o.taille / 5 + o.taille / 25, o.co.y + o.taille / 4 + o.taille / 15,
+				o.taille / 10, o.taille / 10);
+
+		// Bec
+		g.setColor(new Color(255, 204, 0));
+		g.fillPolygon(o.px, o.py, 3);
+		g.setColor(new Color(255, 172, 0));
+		g.fillPolygon(o.px2, o.py2, 3);
+		g.setColor(Color.BLACK);
+		g.drawPolygon(o.px, o.py, 3);
+		g.drawLine(o.px2[0], o.py2[0], o.px2[1], o.py2[1]);
+		g.drawLine(o.px2[1], o.py2[1], o.px2[2], o.py2[2]);
+	}
+
+	public void paintEnnemi(Ennemi e, Graphics g) {
+
+		if (e.typeEnnemi == 1) {
+			// Cell-shading
+			g.setColor(Color.BLACK);
+			g.fillOval(e.co.x - 3, e.co.y - 3, e.taille + 6, e.taille + 6);
+
+			// Corps
+			g.setColor(e.couleurPrincipale);
+			g.fillOval(e.co.x, e.co.y, e.taille, e.taille);
+
+			// Corps inferieur
+			g.setColor(e.couleurSecondaire);
+			g.fillOval(e.co.x + 5, e.co.y + e.taille / 2, e.taille - 10, e.taille / 2);
+
+			// Yeux
+			g.setColor(Color.WHITE);
+			g.fillOval(e.co.x + e.taille / 15, e.co.y + e.taille / 3, e.taille / 5, e.taille / 5);
+			g.fillOval(e.co.x + e.taille / 2 + e.taille / 4, e.co.y + e.taille / 3, e.taille / 5, e.taille / 5);
+
+			// Pupilles
+			g.setColor(Color.BLACK);
+			g.fillOval(e.co.x + e.taille / 15, e.co.y + e.taille / 3 + e.taille / 15, e.taille / 10, e.taille / 10);
+			g.fillOval(e.co.x + e.taille / 2 + e.taille / 3, e.co.y + e.taille / 3 + e.taille / 15, e.taille / 10,
+					e.taille / 10);
+
+			// Groin
+			g.setColor(e.couleurSecondaire);
+			g.fillOval(e.co.x + e.taille / 4, e.co.y + e.taille / 3, e.taille / 2, e.taille / 3 + e.taille / 10);
+			g.setColor(new Color(66, 159, 107));
+			g.drawOval(e.co.x + e.taille / 4, e.co.y + e.taille / 3, e.taille / 2, e.taille / 3 + e.taille / 10);
+			g.setColor(new Color(0, 70, 30));
+			g.fillOval(e.co.x + e.taille / 4 + e.taille / 12, e.co.y + e.taille / 3 + e.taille / 10, e.taille / 6,
+					e.taille / 4);
+			g.fillOval(e.co.x + e.taille / 2, e.co.y + e.taille / 3 + e.taille / 7, e.taille / 7, e.taille / 5);
+
+			// Bouche
+			g.setColor(Color.BLACK);
+			g.drawOval(e.co.x + e.taille / 3 + e.taille / 12, e.co.y + e.taille / 2 + e.taille / 4 + e.taille / 18,
+					e.taille / 8, e.taille / 10);
+			g.setColor(Color.RED);
+			g.fillOval(e.co.x + e.taille / 3 + e.taille / 12, e.co.y + e.taille / 2 + e.taille / 4 + e.taille / 18,
+					e.taille / 8, e.taille / 10);
+		} else if (e.typeEnnemi == 2) {
+
+			// Cell-shading
+			g.setColor(Color.black);
+			g.fillRoundRect(e.co.x - 3, e.co.y - 3, e.taille + e.taille / 3 + 6, e.taille + 6, 20, 20);
+
+			// Corps
+			g.setColor(e.couleurPrincipale);
+			g.fillOval(e.co.x, e.co.y, e.taille, e.taille);
+			g.fillRoundRect(e.co.x, e.co.y, e.taille + e.taille / 3, e.taille, 20, 20);
+
+			// Corps inferieur
+			g.setColor(e.couleurSecondaire);
+			g.fillRoundRect(e.co.x + 5, e.co.y + e.taille / 2, e.taille + e.taille / 3 - e.taille / 4,
+					e.taille / 2 - e.taille / 15, 20, 20);
+
+			// Yeux
+			g.setColor(Color.WHITE);
+			g.fillOval(e.co.x + e.taille / 10, e.co.y + e.taille / 4, e.taille / 5, e.taille / 5);
+			g.fillOval(e.co.x + e.taille, e.co.y + e.taille / 4, e.taille / 5, e.taille / 5);
+
+			// Pupilles
+			g.setColor(Color.BLACK);
+			g.fillOval(e.co.x + e.taille / 10, e.co.y + e.taille / 4 + e.taille / 15, e.taille / 10, e.taille / 10);
+			g.fillOval(e.co.x + e.taille + e.taille / 10, e.co.y + e.taille / 4 + e.taille / 15, e.taille / 10,
+					e.taille / 10);
+
+			// Groin
+			g.setColor(e.couleurSecondaire);
+			g.fillOval(e.co.x + e.taille / 3, e.co.y + e.taille / 3, e.taille / 2 + e.taille / 5,
+					e.taille / 3 + e.taille / 10);
+			g.setColor(new Color(66, 159, 107));
+			g.drawOval(e.co.x + e.taille / 3, e.co.y + e.taille / 3, e.taille / 2 + e.taille / 5,
+					e.taille / 3 + e.taille / 10);
+			g.setColor(new Color(0, 70, 30));
+			g.fillOval(e.co.x + e.taille / 3 + e.taille / 8, e.co.y + e.taille / 3 + e.taille / 10, e.taille / 5,
+					e.taille / 4);
+			g.fillOval(e.co.x + e.taille / 2 + e.taille / 5, e.co.y + e.taille / 3 + e.taille / 7, e.taille / 6,
+					e.taille / 5);
+
+			// Bouche
+			g.setColor(Color.BLACK);
+			g.drawOval(e.co.x + e.taille / 3 + e.taille / 4, e.co.y + e.taille / 2 + e.taille / 4 + e.taille / 18,
+					e.taille / 8, e.taille / 10);
+			g.setColor(Color.RED);
+			g.fillOval(e.co.x + e.taille / 3 + e.taille / 4, e.co.y + e.taille / 2 + e.taille / 4 + e.taille / 18,
+					e.taille / 8, e.taille / 10);
+		}
+	}
+
+	/**
 	 * IHM creant le fond et les ennemis
 	 * 
 	 * @param g
@@ -143,25 +286,30 @@ public class Jeu extends JPanel {
 
 		// Ce qui pivotera
 
-		m.o.paintComponent(this, g2d);
+		paintOiseau(m.o, g2d);
 
 		g2d.setTransform(old);
 
 		// Ce qui ne pivotera pas
 
 		for (Ennemi e : m.getEnnemis()) {
-			e.paintComponent(g2d);
+			try {
+				paintEnnemi(e, g2d);
+			} catch (ConcurrentModificationException err) {
+
+			}
 		}
 
 		g2d.drawImage(new ImageIcon(MVC.class.getResource("slingshot2.png")).getImage(), m.o.coInit.x + 10, 410, null);
 		g2d.drawImage(new ImageIcon(MVC.class.getResource("caisse.png")).getImage(), 0, 480, null);
-		
+
 	}
 
 	/**
 	 * Charge un fichier audio et le joue
 	 * 
-	 * @param nomFichier	Nom du fichier audio (exemple: son.wav)
+	 * @param nomFichier
+	 *            Nom du fichier audio (exemple: son.wav)
 	 */
 	public void jouerSon(String nomFichier)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
