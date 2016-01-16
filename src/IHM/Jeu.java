@@ -9,6 +9,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -292,7 +293,11 @@ public class Jeu extends JPanel {
 		// Ce qui ne pivotera pas
 
 		for (Ennemi e : m.getEnnemis()) {
-			paintEnnemi(e, g2d);
+			try {
+				paintEnnemi(e, g2d);
+			} catch (ConcurrentModificationException err) {
+
+			}
 		}
 
 		g2d.drawImage(new ImageIcon(MVC.class.getResource("slingshot2.png")).getImage(), m.o.coInit.x + 10, 410, null);
