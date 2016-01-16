@@ -280,8 +280,11 @@ public class Jeu extends JPanel {
 
 		AffineTransform old = g2d.getTransform();
 		AffineTransform trans = new AffineTransform();
-		trans.rotate(Math.toRadians(m.o.directionY * 25), m.o.co.x + m.o.taille / 2, m.o.co.y + m.o.taille / 2);
-
+		if (!m.o.roule)
+			trans.rotate(Math.toRadians(m.o.directionY * 25), m.o.co.x + m.o.taille / 2, m.o.co.y + m.o.taille / 2);
+		else 
+			trans.rotate(Math.toRadians(10), m.o.co.x + m.o.taille / 2, m.o.co.y + m.o.taille / 2);
+		
 		g2d.transform(trans);
 
 		// Ce qui pivotera

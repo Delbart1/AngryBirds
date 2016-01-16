@@ -17,6 +17,8 @@ public class Oiseau extends Entite {
 	public int[] py = new int[3];
 	public int[] px2 = new int[3];
 	public int[] py2 = new int[3];
+	
+	public boolean roule = false;
 
 	Random r = new Random();
 

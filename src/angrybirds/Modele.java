@@ -114,6 +114,20 @@ public class Modele extends Observable {
 		timer.scheduleAtFixedRate(task, 0, 10);
 	}
 
+	public void modifierCourbeCollision(Entite e) {
+		updateCoordFin(new Coordonne(o.co.x, o.co.y + courbeSuivie.pointsBezier[2].x));
+		updateCoordOiseau();
+		updateCoordMilieu(o.co.y + 150);
+		t = 0.0;
+	}
+
+	public void modifierCourbeSol(Entite e) {
+		updateCoordOiseau();
+		updateCoordMilieu(o.co.y);
+		updateCoordFin(new Coordonne(courbeSuivie.pointsBezier[2].x - 150, o.co.y));
+		t = 0.0;
+	}
+
 	/**
 	 * Lance l'oiseau et le fait se deplacer, en verifiant ce qu'il rencontre
 	 * sur sa route
@@ -128,12 +142,14 @@ public class Modele extends Observable {
 			// animation du jeu
 			public void run() {
 
-				o.setCoord(courbeSuivie.coordSuivante(t));
+				if (o.co.y < ySol)
+					o.setCoord(courbeSuivie.coordSuivante(t));
 
 				for (Ennemi e : getEnnemis()) {
 
 					if (collision(o, e)) {
-						this.cancel();
+						// this.cancel();
+						modifierCourbeCollision(o);
 						ennemiMort = e;
 					}
 
@@ -142,7 +158,7 @@ public class Modele extends Observable {
 				if (ennemiMort != null) {
 					getEnnemis().remove(ennemiMort);
 					ennemiMort = null;
-					nouveauLancer();
+					// nouveauLancer();
 				}
 
 				if (o.co.x > 800 || o.co.x < -o.taille || o.co.y > 700) {
@@ -165,8 +181,12 @@ public class Modele extends Observable {
 				o.directionY = courbeSuivie.directionBec(t);
 
 				if (o.co.y >= ySol - o.taille) {
-					this.cancel();
-					nouveauLancer();
+					if (!o.roule) {
+						modifierCourbeSol(o);
+						o.roule = true;
+					}
+					// this.cancel();
+					// nouveauLancer();
 				}
 
 			}
