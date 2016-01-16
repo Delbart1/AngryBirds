@@ -14,6 +14,8 @@ import java.util.TimerTask;
  */
 public class Modele extends Observable {
 
+	public FabriqueEntite factory = new FabriqueEntite();
+
 	public Random r = new Random();
 	public int nbEnnemis;
 	public boolean elastiqueTire;
@@ -42,7 +44,7 @@ public class Modele extends Observable {
 		nbEnnemis = 5;
 		elastiqueTire = false;
 		t = 0.0;
-		o = new Oiseau(50);
+		o = (Oiseau) factory.create("oiseau");
 		ennemis = new ArrayList<Ennemi>();
 		ennemiMort = null;
 		trace = new ArrayList<>();
@@ -50,10 +52,10 @@ public class Modele extends Observable {
 		rayonLancer = 75;
 
 		for (int i = 0; i < nbEnnemis; i++) {
-			Ennemi ennemitmp = new Ennemi(50);
+			Ennemi ennemitmp = (Ennemi) factory.create("cochon");
 			for (Ennemi e : getEnnemis()) {
 				while (collision(e, ennemitmp)) {
-					ennemitmp = new Ennemi(50);
+					ennemitmp = (Ennemi) factory.create("cochon");
 				}
 			}
 			getEnnemis().add(ennemitmp);
@@ -85,7 +87,7 @@ public class Modele extends Observable {
 	 */
 	public void nouveauLancer() {
 		t = 0.0;
-		o = new Oiseau(o.taille);
+		o = new Oiseau(o.taille, o.couleurPrincipale);
 		elastiqueTire = false;
 		trace = new ArrayList<>();
 		setChanged();
