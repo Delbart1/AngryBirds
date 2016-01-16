@@ -26,7 +26,7 @@ import angrybirds.Modele;
 
 /**
  * 
- * Classe effectuant toutes les actions nécessaires au fonctionnement du jeu
+ * Classe effectuant toutes les actions nï¿½cessaires au fonctionnement du jeu
  * 
  * @author Thibaut
  *
