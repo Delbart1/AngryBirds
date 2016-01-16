@@ -40,6 +40,8 @@ public class Jeu extends JPanel {
 	Modele m;
 	Controller c;
 
+	int angleRoulade = 0;
+
 	/**
 	 * 
 	 * Initialise le jeu et ajoute les Listeners
@@ -274,17 +276,22 @@ public class Jeu extends JPanel {
 		g.drawImage(new ImageIcon(MVC.class.getResource("slingshot.png")).getImage(), m.o.coInit.x + 10, 410, null);
 
 		g2d.setColor(Color.red);
-		for (Coordonne c : m.trace) {
-			g.fillOval(c.x, c.y, m.o.taille / 5, m.o.taille / 5);
+
+		try {
+			for (Coordonne c : m.trace) {
+				g.fillOval(c.x, c.y, m.o.taille / 5, m.o.taille / 5);
+			}
+		} catch (ConcurrentModificationException e) {
 		}
 
 		AffineTransform old = g2d.getTransform();
 		AffineTransform trans = new AffineTransform();
 		if (!m.o.roule)
 			trans.rotate(Math.toRadians(m.o.directionY * 25), m.o.co.x + m.o.taille / 2, m.o.co.y + m.o.taille / 2);
-		else 
-			trans.rotate(Math.toRadians(10), m.o.co.x + m.o.taille / 2, m.o.co.y + m.o.taille / 2);
-		
+		else {
+			angleRoulade = (angleRoulade - 1);
+			trans.rotate(Math.toRadians(angleRoulade), m.o.co.x + m.o.taille / 2, m.o.co.y + m.o.taille / 2);
+		}
 		g2d.transform(trans);
 
 		// Ce qui pivotera

@@ -124,7 +124,7 @@ public class Modele extends Observable {
 	public void modifierCourbeSol(Entite e) {
 		updateCoordOiseau();
 		updateCoordMilieu(o.co.y);
-		updateCoordFin(new Coordonne(courbeSuivie.pointsBezier[2].x - 150, o.co.y));
+		updateCoordFin(new Coordonne(courbeSuivie.pointsBezier[2].x - 250, o.co.y));
 		t = 0.0;
 	}
 
@@ -173,9 +173,16 @@ public class Modele extends Observable {
 				}
 
 				cptTrace++;
-				if (cptTrace == 5) {
-					trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
-					cptTrace = 0;
+				if (!o.roule) {
+					if (cptTrace == 5) {
+						trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
+						cptTrace = 0;
+					}
+				} else {
+					if (cptTrace == 25) {
+						trace.add(new Coordonne(o.co.x + o.taille / 2, o.co.y + o.taille / 2));
+						cptTrace = 0;
+					}
 				}
 
 				o.directionY = courbeSuivie.directionBec(t);
