@@ -232,6 +232,11 @@ public class Modele extends Observable {
 						o.roule = true;
 					}
 				}
+				
+				if(!elastiqueTire){
+					this.cancel();
+					nouveauLancer();
+				}
 
 			}
 		};
