@@ -124,7 +124,7 @@ public class Modele extends Observable {
 	public void modifierCourbeSol(Entite e) {
 		updateCoordOiseau();
 		updateCoordMilieu(o.co.y);
-		updateCoordFin(new Coordonne(courbeSuivie.pointsBezier[2].x - 250, o.co.y));
+		updateCoordFin(new Coordonne(courbeSuivie.pointsBezier[2].x - 350, o.co.y));
 		t = 0.0;
 	}
 
@@ -168,6 +168,9 @@ public class Modele extends Observable {
 
 				t += 0.005;
 				if (t * 2 >= 7) {
+					this.cancel();
+					nouveauLancer();
+				} else if (o.roule && t * 2 >= 1.5) {
 					this.cancel();
 					nouveauLancer();
 				}

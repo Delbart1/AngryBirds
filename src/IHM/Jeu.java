@@ -110,14 +110,16 @@ public class Jeu extends JPanel {
 					repaint();
 				}
 
-				c.updateCoordOiseau();
-				c.updateCoordMilieu(m.o.coInit.y - (m.o.co.y - m.o.coInit.y) * 10);
-				if ((m.o.coInit.y - m.o.co.y) > 0)
-					c.updateCoordFin(new Coordonne(m.o.coInit.x - (m.o.co.x - m.o.coInit.x) * 15,
-							475 + (m.o.coInit.y - m.o.co.y) * 5));
-				else
-					c.updateCoordFin(new Coordonne(m.o.coInit.x - (m.o.co.x - m.o.coInit.x) * 15,
-							475 - (m.o.coInit.y - m.o.co.y) * 5));
+				if (!m.o.lance) {
+					c.updateCoordOiseau();
+					c.updateCoordMilieu(m.o.coInit.y - (m.o.co.y - m.o.coInit.y) * 10);
+					if ((m.o.coInit.y - m.o.co.y) > 0)
+						c.updateCoordFin(new Coordonne(m.o.coInit.x - (m.o.co.x - m.o.coInit.x) * 15,
+								475 + (m.o.coInit.y - m.o.co.y) * 5));
+					else
+						c.updateCoordFin(new Coordonne(m.o.coInit.x - (m.o.co.x - m.o.coInit.x) * 15,
+								475 - (m.o.coInit.y - m.o.co.y) * 5));
+				}
 			}
 		});
 	}
@@ -289,7 +291,10 @@ public class Jeu extends JPanel {
 		if (!m.o.roule)
 			trans.rotate(Math.toRadians(m.o.directionY * 25), m.o.co.x + m.o.taille / 2, m.o.co.y + m.o.taille / 2);
 		else {
-			angleRoulade = (angleRoulade - 1);
+			if (m.courbeSuivie.pointsBezier[2].x <= m.o.co.x)
+				angleRoulade -= 2;
+			else
+				angleRoulade += 2;
 			trans.rotate(Math.toRadians(angleRoulade), m.o.co.x + m.o.taille / 2, m.o.co.y + m.o.taille / 2);
 		}
 		g2d.transform(trans);

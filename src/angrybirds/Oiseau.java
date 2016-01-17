@@ -17,7 +17,7 @@ public class Oiseau extends Entite {
 	public int[] py = new int[3];
 	public int[] px2 = new int[3];
 	public int[] py2 = new int[3];
-	
+
 	public boolean roule = false;
 
 	Random r = new Random();
@@ -35,6 +35,12 @@ public class Oiseau extends Entite {
 		coInit = new Coordonne(co.x, co.y);
 		super.couleurPrincipale = Color.RED;
 		super.couleurSecondaire = new Color(250, 224, 173);
+		lance = false;
+		directionY = 0.0;
+		px = new int[3];
+		py = new int[3];
+		px2 = new int[3];
+		py2 = new int[3];
 
 		Point[] p = new Point[3];
 		// Point du bas � gauche
