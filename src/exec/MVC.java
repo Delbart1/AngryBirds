@@ -20,7 +20,7 @@ import ihm.Vue;
 public class MVC {
 
 	public MVC() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		Modele m = new Modele();
+		Modele m = Modele.getInstance();
 		Controller c = new Controller(m);
 		Vue v = new Vue(m, c);
 	}

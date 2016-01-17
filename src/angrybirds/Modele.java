@@ -31,9 +31,23 @@ public class Modele extends Observable {
 
 	Timer timer = new Timer();
 
-	public Modele() {
+	private Modele() {
 		initialiser();
 		demarrerEnnemis();
+	}
+
+	/**
+	 * Instance unique de la classe Modele selon le design pattern Singleton
+	 */
+	private static Modele INSTANCE = new Modele();
+
+	/**
+	 * Renvoie l'instance unique de la methode
+	 * 
+	 * @return instance unique
+	 */
+	public static Modele getInstance() {
+		return INSTANCE;
 	}
 
 	/**
