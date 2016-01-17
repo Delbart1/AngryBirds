@@ -33,7 +33,7 @@ public class Modele extends Observable {
 
 	private Modele() {
 		initialiser();
-		demarrerEnnemis();
+		// demarrerEnnemis();
 	}
 
 	/**
@@ -129,17 +129,27 @@ public class Modele extends Observable {
 	}
 
 	public void modifierCourbeCollision(Entite e) {
-		updateCoordFin(new Coordonne(o.co.x, o.co.y + courbeSuivie.pointsBezier[2].x));
-		updateCoordOiseau();
-		updateCoordMilieu(o.co.y + 150);
+		updateCoordFin(new Coordonne(o.co.x, o.co.y + courbeSuivie.pointsBezier[2].y));
+		updateCoordDebut();
+		updateCoordMilieu(o.co.y + (3 * e.taille));
 		t = 0.0;
 	}
 
 	public void modifierCourbeSol(Entite e) {
-		updateCoordOiseau();
+		updateCoordDebut();
 		updateCoordMilieu(o.co.y);
 		updateCoordFin(new Coordonne(courbeSuivie.pointsBezier[2].x - 350, o.co.y));
 		t = 0.0;
+	}
+
+	public void modifierCourbeEnnemi(Ennemi e) {
+		e.courbeEnnemi.pointsBezier[0] = e.co;
+		e.courbeEnnemi.pointsBezier[1].y = e.co.y + (3 * e.taille);
+		e.courbeEnnemi.pointsBezier[2] = new Coordonne(e.co.x, e.co.y + courbeSuivie.pointsBezier[2].y);
+		e.courbeEnnemi.pointsBezier[1].x = e.courbeEnnemi.pointsBezier[0].x
+				+ (e.co.x - e.courbeEnnemi.pointsBezier[0].x) / 2;
+		
+		e.courbeEnnemi.pointsBezier[1].x = e.co.x + 100;
 	}
 
 	/**
@@ -156,23 +166,35 @@ public class Modele extends Observable {
 			// animation du jeu
 			public void run() {
 
-				if (o.co.y < ySol)
+				if (o.co.y < ySol) {
 					o.setCoord(courbeSuivie.coordSuivante(t));
+					setChanged();
+					notifyObservers();
+				}
 
 				for (Ennemi e : getEnnemis()) {
 
 					if (collision(o, e)) {
-						// this.cancel();
-						modifierCourbeCollision(o);
-						ennemiMort = e;
+						if (!e.estTouche) {
+							modifierCourbeCollision(o);
+							modifierCourbeEnnemi(e);
+						}
+						e.estTouche = true;
 					}
 
+					if (e.estTouche) {
+						e.setCoord(e.courbeEnnemi.coordSuivante(e.t));
+						e.t += 0.005;
+
+						if (e.co.y >= ySol - e.taille) {
+							ennemiMort = e;
+						}
+					}
 				}
 
 				if (ennemiMort != null) {
 					getEnnemis().remove(ennemiMort);
 					ennemiMort = null;
-					// nouveauLancer();
 				}
 
 				if (o.co.x > 800 || o.co.x < -o.taille || o.co.y > 700) {
@@ -209,8 +231,6 @@ public class Modele extends Observable {
 						modifierCourbeSol(o);
 						o.roule = true;
 					}
-					// this.cancel();
-					// nouveauLancer();
 				}
 
 			}
@@ -224,7 +244,7 @@ public class Modele extends Observable {
 	 * met à jour les coordonnées du premier point de la courbe de Bezier (celui
 	 * a la position initiale de l'oiseau)
 	 */
-	public void updateCoordOiseau() {
+	public void updateCoordDebut() {
 		courbeSuivie.pointsBezier[0] = new Coordonne(o.co.x, o.co.y);
 		setChanged();
 		notifyObservers();

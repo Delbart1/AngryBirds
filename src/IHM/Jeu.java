@@ -111,7 +111,7 @@ public class Jeu extends JPanel {
 				}
 
 				if (!m.o.lance) {
-					c.updateCoordOiseau();
+					c.updateCoordDebut();
 					c.updateCoordMilieu(m.o.coInit.y - (m.o.co.y - m.o.coInit.y) * 10);
 					if ((m.o.coInit.y - m.o.co.y) > 0)
 						c.updateCoordFin(new Coordonne(m.o.coInit.x - (m.o.co.x - m.o.coInit.x) * 15,

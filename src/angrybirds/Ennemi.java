@@ -17,6 +17,10 @@ public class Ennemi extends Entite {
 	public int typeEnnemi = 2;
 	// 1 = cochon
 	// 2 = cochon rectangle
+	
+	public boolean estTouche = false;
+	public double t = 0.0;
+	public Courbe courbeEnnemi = new Courbe();
 
 	public TrajectoireEnnemi trajectoire;
 

@@ -14,8 +14,8 @@ public class Controller {
 		m.lancerOiseau();
 	}
 
-	public void updateCoordOiseau() {
-		m.updateCoordOiseau();
+	public void updateCoordDebut() {
+		m.updateCoordDebut();
 	}
 
 	public void updateCoordMilieu(int y) {
